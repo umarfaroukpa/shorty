@@ -3,31 +3,17 @@ import { getSession } from 'next-auth/react';
 import dbConnect from '../../utils/dbConnect';
 import Url from '../../models/Url';
 
-interface User {
-    id?: string;  // Make 'id' optional
-    name?: string | null | undefined;
-    email?: string | null | undefined;
-    image?: string | null | undefined;
-}
-
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const session = await getSession({ req });
 
-        if (!session || !session.user) {
+        if (!session || !session.user || !session.user.id) {
             return res.status(401).json({ message: 'Unauthorized' });
         }
 
         await dbConnect();
 
-        const user: User = {
-            id: session.user.id,
-            name: session.user.name,
-            email: session.user.email,
-            image: session.user.image,
-        };
-
-        const urls = await Url.find({ userId: user.id });
+        const urls = await Url.find({ userId: session.user.id });
 
         if (!urls) {
             return res.status(404).json({ message: 'No URLs found' });

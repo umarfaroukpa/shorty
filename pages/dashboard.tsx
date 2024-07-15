@@ -4,7 +4,7 @@ import Layout from '../components/Layout';
 const Dashboard = () => {
     const { data: session } = useSession();
 
-    if (!session) {
+    if (!session || !session.user) {
         return <p>You need to be authenticated to view this page</p>;
     }
 

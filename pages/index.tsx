@@ -1,14 +1,11 @@
-import Navbar from '../components/Navbar';
+import Layout from '../components/Layout';
 import Hero from '../components/Hero';
-import Body from '../components/Body';
 
 const Home = () => {
     return (
-        <div>
-            <Navbar />
+        <Layout>
             <Hero />
-            <Body />
-        </div>
+        </Layout>
     );
 };
 
