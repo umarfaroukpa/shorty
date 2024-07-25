@@ -1,16 +1,20 @@
+import React from 'react';
 import Navbar from './Navbar';
-import { ReactNode } from 'react';
 
 interface LayoutProps {
-    children: ReactNode;
+    onLoginClick: () => void;
+    onSignupClick: () => void;
+    children: React.ReactNode;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout = ({ onLoginClick, onSignupClick, children }: LayoutProps) => {
     return (
-        <>
-            <Navbar />
-            <main>{children}</main>
-        </>
+        <div>
+            <Navbar onLoginClick={onLoginClick} onSignupClick={onSignupClick} />
+            <div>
+                {children}
+            </div>
+        </div>
     );
 };
 

@@ -1,31 +1,23 @@
+// pages/api/shorten.ts
+
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getSession } from 'next-auth/react';
-import dbConnect from '../../utils/dbConnect';
-import Url from '../../models/Url';
-import { generateQRCode } from '../../utils/generateQRCode'; // Named import
+import { nanoid } from 'nanoid';
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-    const session = await getSession({ req });
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+    if (req.method === 'POST') {
+        const { url } = req.body;
 
-    if (!session) {
-        return res.status(401).json({ message: 'Unauthorized' });
+        if (!url || typeof url !== 'string') {
+            return res.status(400).json({ error: 'Invalid URL' });
+        }
+
+        // Example logic for URL shortening
+        const shortUrl = `${req.headers.origin}/${nanoid(7)}`;
+        const qrCode = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(shortUrl)}`;
+
+        res.status(200).json({ shortUrl, qrCode });
+    } else {
+        res.setHeader('Allow', ['POST']);
+        res.status(405).end(`Method ${req.method} Not Allowed`);
     }
-
-    const { originalUrl } = req.body;
-
-    await dbConnect();
-
-    const shortUrl = `https://shorty.com/${Math.random().toString(36).substring(7)}`;
-    const qrCode = await generateQRCode(shortUrl);
-
-    const newUrl = new Url({
-        originalUrl,
-        shortUrl,
-        qrCode,
-        userId: session.user.id,
-    });
-
-    await newUrl.save();
-
-    res.status(201).json({ shortUrl, qrCode });
-};
+}

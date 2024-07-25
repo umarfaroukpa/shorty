@@ -1,0 +1,73 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    background: #333;
+    color: white;
+    padding: 10px;
+}
+
+.logo {
+    margin-right: auto;
+    /* Linkly */
+
+    margin: 0 auto;
+    width: 110px;
+    height: 46px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 36.9136px;
+    line-height: 45px;
+    /* identical to box height, or 123% */
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    background: radial-gradient(95.19% 12441.23% at 5.56% 79.01%, #EB568E 0%, #144EE3 100%)
+        /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */
+    ;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+
+
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    z-index: 0;
+
+}
+
+.logo img {
+    max-height: 50px;
+    /* Adjust as needed */
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar li {
+    margin: 0 15px;
+}
+
+.navbar a,
+.navbar button {
+    color: white;
+    text-decoration: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.navbar a:hover,
+.navbar button:hover {
+    text-decoration: underline;
+}

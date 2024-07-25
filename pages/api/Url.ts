@@ -15,11 +15,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
         const urls = await Url.find({ userId: session.user.id });
 
-        if (!urls) {
+        if (!urls || urls.length === 0) {
             return res.status(404).json({ message: 'No URLs found' });
         }
 
-        res.status(200).json(urls);
+        res.status(200).json({ urls });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });

@@ -1,20 +1,36 @@
 import { useSession } from 'next-auth/react';
-import Layout from '../components/Layout';
+import UrlShortener from '../components/UrlShortener';
+import Navbar from '../components/Navbar';
+import { useRouter } from 'next/router';
 
-const Dashboard = () => {
+const DashboardPage = () => {
     const { data: session } = useSession();
+    const router = useRouter();
 
-    if (!session || !session.user) {
-        return <p>You need to be authenticated to view this page</p>;
-    }
+    const handleLoginClick = () => {
+        router.push('/login');
+    };
+
+    const handleSignupClick = () => {
+        router.push('/signup');
+    };
 
     return (
-        <Layout>
-            <h1>Dashboard</h1>
-            <p>Welcome, {session.user.email}</p>
-            {/* Additional dashboard functionality */}
-        </Layout>
+        <>
+            <Navbar onLoginClick={handleLoginClick} onSignupClick={handleSignupClick} />
+            <div className="p-4">
+                <h1 className="text-2xl font-bold text-gradient">Welcome to SHORTY</h1>
+                {session ? (
+                    <>
+                        <p className="text-gradient">Welcome back to SHORTY {session.user.name}! Enjoy Our Numerous Servicess.</p>
+                        <UrlShortener />
+                    </>
+                ) : (
+                    <p className="text-gradient">Welcome! Please sign in to access premium features.</p>
+                )}
+            </div>
+        </>
     );
 };
 
-export default Dashboard;
+export default DashboardPage;

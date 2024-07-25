@@ -1,0 +1,46 @@
+.dashboard {
+    display: flex;
+    flex-direction: column;
+}
+
+.mainContent {
+    padding: 20px;
+
+    /* Shorten Your Loooong Links :) */
+
+    width: 966px;
+    height: 81px;
+
+
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+
+
+    /* Shorten Your Loooong Links :) */
+
+    position: absolute;
+    left: 3.93%;
+    right: 3.83%;
+    top: 0%;
+    bottom: 0%;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 60px;
+    line-height: 80px;
+    /* or 133% */
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    background: linear-gradient(89.92deg, #144EE3 -0.02%, #EB568E 18.86%, #A353AA 64.49%, #144EE3 100.67%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+
+
+}
