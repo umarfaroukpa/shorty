@@ -1,4 +1,3 @@
-// Navbar.tsx
 import React, { useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
 import Image from 'next/image';
@@ -11,7 +10,7 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onSignupClick }) => {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
     const [dropdownVisible, setDropdownVisible] = useState(false);
     const router = useRouter();
 
@@ -28,8 +27,12 @@ const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onSignupClick }) => {
         setDropdownVisible(!dropdownVisible);
     };
 
+    // Debugging: Log session status and data
+    console.log('Session status:', status);
+    console.log('Session data:', session);
+
     return (
-        <nav className="text-white p-4 flex items-center justify-between">
+        <nav className="fixed top-0 w-full text-white p-4 flex items-center justify-between bg-[#1E1E1E] shadow-md z-50">
             <div className="flex items-center">
                 <Image src={logo} alt="Logo" width={50} height={50} />
                 <span className="ml-2 text-xl font-bold text-gradient">Shorty</span>

@@ -2,6 +2,15 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../../utils/dbConnect';
 import User, { IUser } from '../../../models/User';
 import bcrypt from 'bcryptjs';
+import nodemailer from 'nodemailer';
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+    },
+});
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const { name, email, password } = req.body;
@@ -28,6 +37,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         });
 
         await newUser.save();
+
+        // Send welcome email
+        await transporter.sendMail({
+            from: process.env.EMAIL_USER,
+            to: email,
+            subject: 'Welcome to Shorty!',
+            text: `Welcome to Shorty, ${name}! Thank you for using our service.`,
+        });
 
         return res.status(201).json({ message: 'User created successfully' });
     } catch (error) {

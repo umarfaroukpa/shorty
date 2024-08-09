@@ -16,21 +16,29 @@ const Profile = () => {
 
     useEffect(() => {
         if (status === 'loading') return;
-        if (!session) {
+        if (!session || !session.accessToken) {
+            console.log('No session, redirecting...');
             router.push('/');
         } else {
-            fetchUrls();
+            console.log('Session exists, fetching URLs...');
+            fetchUrls(session);
         }
     }, [session, status]);
 
-    const fetchUrls = async () => {
+    const fetchUrls = async (session: any) => {
         try {
-            const response = await axios.get<{ urls: Url[] }>('/api/urls');
+            const response = await axios.get('/api/url', {
+                headers: {
+                    Authorization: `Bearer ${session.accessToken}`
+                }
+            });
+            console.log('URLs fetched:', response.data.urls);
             setUrls(response.data.urls);
         } catch (error) {
             console.error('Error fetching URLs:', error);
         }
     };
+
 
     if (status === 'loading') {
         return <p className="text-center text-xl text-gradient">Loading...</p>;

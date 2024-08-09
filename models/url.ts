@@ -1,11 +1,21 @@
-import mongoose, { Schema, model, models } from 'mongoose';
+import mongoose, { Schema, Model, Document } from 'mongoose';
 
-const urlSchema = new Schema({
+interface IUrl extends Document {
+    originalUrl: string;
+    shortUrl: string;
+    shortCode: string;
+    qrCode: string;
+    userId: Schema.Types.ObjectId;
+    createdAt: Date;
+}
+
+const UrlSchema: Schema = new Schema<IUrl>({
     originalUrl: { type: String, required: true },
     shortUrl: { type: String, required: true, unique: true },
+    shortCode: { type: String, required: true, unique: true },
     qrCode: { type: String },
     userId: { type: Schema.Types.ObjectId, ref: 'User' },
     createdAt: { type: Date, default: Date.now }
-});
-
-export default models.Url || model('Url', urlSchema);
+}, { timestamps: true });
+const Url: Model<IUrl> = mongoose.models.Url || mongoose.model<IUrl>('Url', UrlSchema);
+export default Url
