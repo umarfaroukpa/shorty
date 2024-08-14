@@ -4,7 +4,7 @@ import Link from 'next/link';
 interface IconProps {
     name: string;
     className?: string;
-    style?: React.CSSProperties; // Add style prop for custom sizing
+    style?: React.CSSProperties;
 }
 
 const Icon: React.FC<IconProps> = ({ name, className, style }) => {

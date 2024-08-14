@@ -1,4 +1,4 @@
-import React from 'react'; // Add this import statement
+import React from 'react';
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Modal from '../components/Modal';
@@ -11,6 +11,7 @@ import SlidingText from '../components/SlidingText';
 import CustomerReviews from '../components/Review';
 import Brand from '../components/Brand';
 import MarkdownEditor from '../components/MarkdownEditor';
+import Image from 'next/image';
 
 const HomePage = () => {
     const { data: session } = useSession();
@@ -40,9 +41,11 @@ const HomePage = () => {
                         <p className="text-gradient">Welcome Back, {session.user?.name || 'User'}</p>
                     ) : (
                         <div className="relative w-full">
-                            <img
+                            <Image
                                 src="/tablet-with-annual-report-removebg-preview.png"
                                 alt="Hero Image"
+                                width={800}
+                                height={600}
                                 className="absolute top-0 left-0 w-full h-full object-cover size-fit opacity-40 bg-no-repeat"
                                 style={{ zIndex: -1 }}
                             />

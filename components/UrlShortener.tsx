@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
+import Image from 'next/image';
 
 const UrlShortener = () => {
     const { data: session } = useSession();
@@ -183,7 +184,7 @@ const UrlShortener = () => {
                         </p>
                         <div className="flex items-center mb-4 justify-center">
                             <i className="fa-solid fa-qrcode mr-2"></i>
-                            {qrCode && <img src={qrCode} alt="QR Code" className="mr-2" />}
+                            {qrCode && <Image src={qrCode} width={80} height={80} alt="QR Code" className="mr-2" />}
                             <button onClick={handleCopyToClipboard} className="text-blue-500 underline">
                                 <i className="fa-solid fa-copy"></i> Copy
                             </button>

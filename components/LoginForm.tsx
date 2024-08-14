@@ -98,7 +98,7 @@ const LoginForm = ({ onSwitchToSignup }: LoginFormProps) => {
                 <button onClick={() => alert('Forgot Password')} className="text-blue-500 hover:underline text-sm">Forgot Password?</button>
             </div>
             <p className="mt-3 text-center text-sm">
-                Don't have an account?{' '}
+                <p>Don&apos;t have an account? Sign up now!</p>
                 <button onClick={onSwitchToSignup} className="text-blue-500 hover:underline">
                     Sign Up
                 </button>

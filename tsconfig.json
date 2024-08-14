@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
+    "types": [
+      "jest",
+      "@testing-library/jest-dom"
+    ],
     "paths": {
       "next/router": [
         "node_modules/next/dist/client/router"
@@ -15,7 +19,7 @@
         "node_modules/next/dist/shared/lib/router-context"
       ]
     },
-    "jsx": "react",
+    "jsx": "preserve",
     "target": "ES2017",
     "lib": [
       "dom",

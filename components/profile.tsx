@@ -23,7 +23,7 @@ const Profile = () => {
             console.log('Session exists, fetching URLs...');
             fetchUrls(session);
         }
-    }, [session, status]);
+    }, [session, status, router]);
 
     const fetchUrls = async (session: any) => {
         try {
@@ -38,7 +38,6 @@ const Profile = () => {
             console.error('Error fetching URLs:', error);
         }
     };
-
 
     if (status === 'loading') {
         return <p className="text-center text-xl text-gradient">Loading...</p>;

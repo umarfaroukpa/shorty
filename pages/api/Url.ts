@@ -12,7 +12,7 @@ const fetchUrlsFromDatabase = async (userId: string) => {
     return urls;
 };
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getSession({ req });
 
     if (!session) {
@@ -35,3 +35,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(405).json({ message: 'Method Not Allowed' });
     }
 };
+
+export default handler;

@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 interface Review {
     name: string;
@@ -10,34 +11,33 @@ const reviews: Review[] = [
     {
         name: 'Cheerful Business Man',
         text: 'This service is amazing! It has helped me a lot in my daily tasks.',
-        avatar: '/cheerful-businessman-smiling-removebg-preview.png', // Remove /public prefix
+        avatar: '/cheerful-businessman-smiling-removebg-preview.png',
     },
     {
         name: 'Jane Smith',
         text: 'Highly recommend this product. Excellent customer support and features.',
-        avatar: '/co-workers-with-blue-file-removebg-preview.png', // Remove /public prefix
+        avatar: '/co-workers-with-blue-file-removebg-preview.png',
     },
     {
         name: 'Elegant Mike Johnson',
         text: 'Great experience! Will definitely use it again.',
-        avatar: '/elegant-businessman-with-thumbs-up-removebg-preview.png', // Remove /public prefix
+        avatar: '/elegant-businessman-with-thumbs-up-removebg-preview.png',
     },
     {
         name: 'Maria',
         text: 'Great experience! Will definitely use it again.',
-        avatar: '/happy-young-female-professional-posing-with-arms-folded-removebg-preview.png', // Remove /public prefix
+        avatar: '/happy-young-female-professional-posing-with-arms-folded-removebg-preview.png',
     },
     {
         name: 'Zulai',
         text: 'Great experience! Will definitely use it again.',
-        avatar: '/portrait-handsome-young-black-african-smiling-man-removebg-preview.png', // Remove /public prefix
+        avatar: '/portrait-handsome-young-black-african-smiling-man-removebg-preview.png',
     },
     {
         name: 'Mike Hannan',
         text: 'Great experience! Will definitely use it again.',
-        avatar: '/portrait-indigenous-businessman-removebg-preview.png', // Remove /public prefix
+        avatar: '/portrait-indigenous-businessman-removebg-preview.png',
     },
-    // Add more reviews as needed
 ];
 
 const CustomerReviews: React.FC = () => {
@@ -48,14 +48,16 @@ const CustomerReviews: React.FC = () => {
                 {reviews.map((review, index) => (
                     <div
                         key={index}
-                        className=" review-card flex flex-col items-center text-gradient p-6 rounded-lg shadow-lg text-center hover:shadow-2xl transition-shadow duration-300"
+                        className="review-card flex flex-col items-center text-gradient p-6 rounded-lg shadow-lg text-center hover:shadow-2xl transition-shadow duration-300"
                     >
-                        <img
+                        <Image
                             src={review.avatar}
                             alt={review.name}
-                            className="w-32 h-32 rounded-full mb-4 object-cover" // Increased size and added object-cover
+                            width={128}
+                            height={128}
+                            className="w-32 h-32 rounded-full mb-4 object-cover"
                         />
-                        <p className="text-lg italic mb-2">"{review.text}"</p>
+                        <p className="text-lg italic mb-2">&quot;{review.text}&quot;</p>
                         <h3 className="text-xl font-semibold">{review.name}</h3>
                     </div>
                 ))}

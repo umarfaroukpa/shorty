@@ -11,7 +11,7 @@ interface User {
     image?: string | null | undefined;
 }
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const session = await getSession({ req });
 
@@ -40,3 +40,4 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+export default handler;

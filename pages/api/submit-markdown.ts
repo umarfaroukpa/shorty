@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === 'POST') {
         const { content } = req.body;
 
@@ -41,3 +41,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         res.status(405).json({ message: 'Method not allowed' });
     }
 };
+
+export default handler;
