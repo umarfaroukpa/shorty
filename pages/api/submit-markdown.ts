@@ -1,3 +1,4 @@
+import React from 'react';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nodemailer from 'nodemailer';
 import dbConnect from '../../utils/dbConnect';

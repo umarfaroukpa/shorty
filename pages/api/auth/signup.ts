@@ -1,3 +1,4 @@
+import React from 'react';
 import { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../../utils/dbConnect';
 import User, { IUser } from '../../../models/User';

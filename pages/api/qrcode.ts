@@ -1,3 +1,4 @@
+import React from 'react';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getSession } from 'next-auth/react';
 import dbConnect from '../../utils/dbConnect';

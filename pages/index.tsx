@@ -1,14 +1,16 @@
+import React from 'react'; // Add this import statement
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import Modal from '../components/Modal';
 import LoginForm from '../components/LoginForm';
 import SignupForm from '../components/SignupForm';
-import Navbar from '../components/Navbar';
+import Layout from '../components/Layout';
 import UrlShortener from '../components/UrlShortener';
 import Features from '../components/Features';
 import SlidingText from '../components/SlidingText';
-import Brand from '@/components/Brand';
-import MarkdownEditor from '@/components/MarkdownEditor';
+import CustomerReviews from '../components/Review';
+import Brand from '../components/Brand';
+import MarkdownEditor from '../components/MarkdownEditor';
 
 const HomePage = () => {
     const { data: session } = useSession();
@@ -31,9 +33,8 @@ const HomePage = () => {
     };
 
     return (
-        <div>
-            <Navbar onLoginClick={handleLoginClick} onSignupClick={handleSignupClick} />
-            <div className="pt-16 p-4"> {/* Add padding-top to account for sticky Navbar */}
+        <Layout onLoginClick={handleLoginClick} onSignupClick={handleSignupClick}>
+            <div className="pt-16 p-4">
                 <div className="p-4 rounded-lg shadow-md">
                     {session ? (
                         <p className="text-gradient">Welcome Back, {session.user?.name || 'User'}</p>
@@ -55,19 +56,34 @@ const HomePage = () => {
                     <UrlShortener />
                     <Features />
                     <Brand />
-                    <button
-                        onClick={toggleEditor}
-                        className="mt-4 p-2 bg-green-500 text-white rounded-md hover:bg-green-700"
-                    >
-                        {showEditor ? 'Hide Editor' : 'Show Editor'}
-                    </button>
-                    {showEditor && <MarkdownEditor />}
+                    <CustomerReviews />
                 </div>
             </div>
             <Modal show={showModal} onClose={() => setShowModal(false)}>
                 {isLogin ? <LoginForm onSwitchToSignup={handleSignupClick} /> : <SignupForm onSwitchToLogin={handleLoginClick} />}
             </Modal>
-        </div>
+            {/* Fixed button for showing/hiding the editor */}
+            <button
+                onClick={toggleEditor}
+                className={`fixed bottom-4 right-4 p-3 rounded-md shadow-lg text-gradient transition-all duration-300 ${showEditor ? 'bg-red-500 hover:bg-red-700' : 'bg-green-500 hover:bg-green-700'
+                    }`}
+            >
+                {showEditor ? 'Hide Editor' : 'Show Editor'}
+            </button>
+            {showEditor && (
+                <div className="fixed inset-0 z-50 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4">
+                    <div className="relative bg-white p-6 rounded-lg w-full max-w-4xl">
+                        <button
+                            onClick={toggleEditor}
+                            className="absolute top-2 right-2 p-2 text-gray-700 hover:text-gray-900"
+                        >
+                            <i className="fa fa-times"></i>
+                        </button>
+                        <MarkdownEditor />
+                    </div>
+                </div>
+            )}
+        </Layout>
     );
 };
 

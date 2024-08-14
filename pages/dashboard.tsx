@@ -1,7 +1,9 @@
+import React from 'react';
 import { useSession } from 'next-auth/react';
 import UrlShortener from '../components/UrlShortener';
 import Navbar from '../components/Navbar';
 import { useRouter } from 'next/router';
+import Footer from '../components/Footer';
 
 const DashboardPage = () => {
     const { data: session } = useSession();
@@ -24,6 +26,7 @@ const DashboardPage = () => {
                     <>
                         <p className="text-gradient">Welcome back to SHORTY {session.user.name}! Enjoy Our Numerous Servicess.</p>
                         <UrlShortener />
+                        <footer />
                     </>
                 ) : (
                     <p className="text-gradient">Welcome! Please sign in to access premium features.</p>

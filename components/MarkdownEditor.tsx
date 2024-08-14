@@ -15,7 +15,8 @@ const MarkdownEditor = () => {
         try {
             const response = await axios.post('/api/submit-markdown', { content: value });
             setMessage('Content sent successfully!');
-            setValue('');  // Reset the editor
+            // Reset the editor
+            setValue('');
         } catch (error) {
             setMessage('Failed to send content.');
             console.error('Error sending markdown content:', error);
@@ -23,7 +24,13 @@ const MarkdownEditor = () => {
     };
 
     return (
-        <div className="container">
+        <div className="relative container">
+            <button
+                className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full hover:bg-red-700"
+                onClick={() => setValue('')} // Function to handle close
+            >
+                <i className="fa fa-times"></i>
+            </button>
             <ReactMde
                 value={value}
                 onChange={setValue}

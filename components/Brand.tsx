@@ -1,4 +1,5 @@
-// components/Companies.js
+import React from 'react';
+
 const Companies = () => {
     const companies = [
         'Twitter', 'Indeed', 'LinkedIn', 'Multichoice', 'Facebook',
@@ -7,7 +8,7 @@ const Companies = () => {
     ];
 
     return (
-        <div className="p-4 rounded-lg shadow-md mt-8">
+        <div className="p-4 rounded-lg shadow-md mt-8 text-white ">
             <h2 className="text-2xl font-bold text-center mb-4 text-gradient">
                 Discover Some of Brands That Have Been Using Shorty For Longer Period Of Time
             </h2>

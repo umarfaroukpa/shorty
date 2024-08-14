@@ -1,3 +1,4 @@
+import React from 'react';
 import { Secret, sign } from 'jsonwebtoken';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { JWT } from 'next-auth/jwt';
@@ -24,7 +25,8 @@ function generateAccessToken(user: IUser): string {
   };
 
   const options = {
-    expiresIn: '1h' // Token expires in 1 hour
+    // this will set token expires in 1 hour
+    expiresIn: '1h'
   };
 
   return sign(payload, SECRET_KEY, options);
@@ -57,7 +59,8 @@ export default NextAuth({
               email: user.email,
               premium: user.premium,
               name: user.name,
-              accessToken // Ensure accessToken is returned here
+              // this wull return accessToken
+              accessToken
             };
           } else {
             return null;
@@ -84,7 +87,8 @@ export default NextAuth({
     secret: process.env.NEXTAUTH_SECRET,
   },
   callbacks: {
-    async jwt({ token, user }: { token: JWT, user?: any }) { // Use 'any' for user to include accessToken
+    // i use 'any' for user to include accessToken
+    async jwt({ token, user }: { token: JWT, user?: any }) {
       console.log('JWT Callback - Token:', token);
       if (user) {
         console.log('JWT Callback - User:', user);
@@ -92,7 +96,7 @@ export default NextAuth({
         token.premium = user.premium;
         token.name = user.name;
         token.email = user.email;
-        token.accessToken = user.accessToken; // Ensure access token is added to token
+        token.accessToken = user.accessToken;
       }
       return token;
     },
@@ -105,15 +109,19 @@ export default NextAuth({
           name: token.name as string,
           email: token.email as string,
         };
-        session.accessToken = token.accessToken; // Ensure access token is added to session
+        session.accessToken = token.accessToken;
       }
       return session;
     }
   },
   pages: {
-    signIn: '/auth/signin', // Display the sign-in page
-    signOut: '/auth/signout', // Display the sign-out page
-    error: '/auth/error', // Display the error page
+    // Display the sign-in page
+    signIn: '/auth/signin',
+    // Display the sign-out page 
+    signOut: '/auth/signout',
+    // Display the error page
+    error: '/auth/error',
   },
-  debug: true, // Enable debug mode for detailed logs
+  // Enable debug mode for detailed logs
+  debug: true,
 });

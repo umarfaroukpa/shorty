@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from 'react';
 
 const slidingTexts = [
@@ -19,7 +20,7 @@ const SlidingText = () => {
     }, []);
 
     return (
-        <h1 className=" flex justify-center text-4xl text-gradient p-8 ">
+        <h1 className="slidingText flex justify-center font-bold text-gradient p-8" style={{ fontSize: '2.5rem' }}>
             {slidingTexts[currentTextIndex]}
         </h1>
     );

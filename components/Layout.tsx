@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from './Footer';
 import Navbar from './Navbar';
 
 interface LayoutProps {
@@ -7,13 +8,14 @@ interface LayoutProps {
     children: React.ReactNode;
 }
 
-const Layout = ({ onLoginClick, onSignupClick, children }: LayoutProps) => {
+const Layout: React.FC<LayoutProps> = ({ children, onLoginClick, onSignupClick }) => {
     return (
-        <div>
+        <div className="flex flex-col min-h-screen">
             <Navbar onLoginClick={onLoginClick} onSignupClick={onSignupClick} />
-            <div>
+            <main className="flex-grow pt-16 p-4">
                 {children}
-            </div>
+            </main>
+            <Footer />
         </div>
     );
 };
