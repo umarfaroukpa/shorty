@@ -50,12 +50,12 @@ const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onSignupClick }) => {
             </div>
             <ul className="hidden md:flex items-center space-x-4">
                 <li>
-                    <Link href="/" className="hover:underline text-custom-text font-inter font-semibold text-sm text-gradient">
+                    <Link href="/" className="hover:underline pr-12 text-custom-text font-inter font-semibold text-sm text-gradient">
                         Home
                     </Link>
                 </li>
                 <li className="relative">
-                    <button onClick={toggleMarketDropdown} className="flex items-center space-x-2 text-gradient">
+                    <button onClick={toggleMarketDropdown} className="flex pr-7 items-center space-x-2 text-gradient">
                         Market
                         <i className="fa fa-caret-down ml-1"></i>
                     </button>
@@ -101,7 +101,7 @@ const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onSignupClick }) => {
                         <li>
                             <button
                                 onClick={onLoginClick}
-                                className="flex items-center justify-center space-x-2 bg-custom-dark border border-custom-border shadow-custom rounded-custom px-6 py-4"
+                                className="flex items-center justify-center pr-11  space-x-2 bg-custom-dark border border-custom-border shadow-custom rounded-custom px-6 py-4"
                             >
                                 <span className="text-custom-text font-inter font-semibold text-sm text-gradient">Login</span>
                                 <span className="text-custom-icon text-2xl">
