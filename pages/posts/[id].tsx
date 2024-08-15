@@ -13,39 +13,49 @@ interface PostPageProps {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-    await dbConnect();
+    try {
+        await dbConnect();
 
-    // Fetch posts and type them as IPost[]
-    const posts = await Post.find({}).lean();
+        // Fetch posts and type them as IPost[]
+        const posts = await Post.find({}).lean();
 
-    // Create paths from posts
-    const paths = posts.map((post: { _id: any }) => ({
-        params: { id: post._id.toString() },
-    }));
+        // Create paths from posts
+        const paths = posts.map((post: { _id: any }) => ({
+            params: { id: post._id.toString() },
+        }));
 
-    return { paths, fallback: 'blocking' };
+        return { paths, fallback: 'blocking' };
+    } catch (error) {
+        console.error('Error in getStaticPaths:', error);
+        return { paths: [], fallback: 'blocking' };
+    }
 };
 
 export const getStaticProps: GetStaticProps<PostPageProps, Params> = async (context) => {
-    await dbConnect();
+    try {
+        await dbConnect();
 
-    if (!context.params || !context.params.id) {
+        if (!context.params || !context.params.id) {
+            return { notFound: true };
+        }
+
+        const { id } = context.params;
+        const post = await Post.findById(id).lean();
+
+        if (!post) {
+            return { notFound: true };
+        }
+
+        return {
+            props: {
+                post: post as IPost,
+            },
+            revalidate: 1,
+        };
+    } catch (error) {
+        console.error('Error in getStaticProps:', error);
         return { notFound: true };
     }
-
-    const { id } = context.params;
-    const post = await Post.findById(id).lean();
-
-    if (!post) {
-        return { notFound: true };
-    }
-
-    return {
-        props: {
-            post: post as IPost,
-        },
-        revalidate: 1,
-    };
 };
 
 const PostPage = ({ post }: PostPageProps) => {
