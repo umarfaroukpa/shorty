@@ -13,7 +13,7 @@ import User, { IUser } from '../../../models/User';
 require('dotenv').config();
 
 // Secret key for JWT
-const SECRET_KEY: Secret = process.env.JWT_SECRET || '2119e1be47b2c1630d86ee6b288a6ad193d654d442702dc8d709ff4be2bf408f29a82f78902205a2d7061147b476c1df';
+const SECRET_KEY: Secret = process.env.SECRET || '2119e1be47b2c1630d86ee6b288a6ad193d654d442702dc8d709ff4be2bf408f29a82f78902205a2d7061147b476c1df';
 
 // Function to generate the access token
 function generateAccessToken(user: IUser): string {

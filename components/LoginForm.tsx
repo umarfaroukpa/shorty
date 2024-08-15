@@ -28,7 +28,8 @@ const LoginForm = ({ onSwitchToSignup }: LoginFormProps) => {
         } else {
             setEmail('');
             setPassword('');
-            router.push('/dashboard'); // Redirect to dashboard or any other page
+            // Redirect user to dashboard 
+            router.push('/dashboard');
         }
     };
 
