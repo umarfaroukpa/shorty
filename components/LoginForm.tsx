@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 
@@ -98,12 +97,12 @@ const LoginForm = ({ onSwitchToSignup }: LoginFormProps) => {
             <div className="mt-3 text-center">
                 <button onClick={() => alert('Forgot Password')} className="text-blue-500 hover:underline text-sm">Forgot Password?</button>
             </div>
-            <p className="mt-3 text-center text-sm">
-                <p>Don&apos;t have an account? Sign up now!</p>
+            <div className="mt-3 text-center text-sm">
+                <span>Don&apos;t have an account? Sign up now!</span>
                 <button onClick={onSwitchToSignup} className="text-blue-500 hover:underline">
                     Sign Up
                 </button>
-            </p>
+            </div>
         </div>
     );
 };

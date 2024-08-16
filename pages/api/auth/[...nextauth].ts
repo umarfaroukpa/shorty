@@ -13,7 +13,7 @@ import User, { IUser } from '../../../models/User';
 require('dotenv').config();
 
 // Secret key for JWT
-const SECRET_KEY: Secret = process.env.SECRET || '2119e1be47b2c1630d86ee6b288a6ad193d654d442702dc8d709ff4be2bf408f29a82f78902205a2d7061147b476c1df';
+const SECRET_KEY: Secret = process.env.JWT_SECRET || '2119e1be47b2c1630d86ee6b288a6ad193d654d442702dc8d709ff4be2bf408f29a82f78902205a2d7061147b476c1df';
 
 // Function to generate the access token
 function generateAccessToken(user: IUser): string {
@@ -25,7 +25,6 @@ function generateAccessToken(user: IUser): string {
   };
 
   const options = {
-    // this will set token expires in 1 hour
     expiresIn: '1h'
   };
 
@@ -59,7 +58,6 @@ export default NextAuth({
               email: user.email,
               premium: user.premium,
               name: user.name,
-              // this wull return accessToken
               accessToken
             };
           } else {
@@ -86,8 +84,8 @@ export default NextAuth({
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,
   },
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    // i use 'any' for user to include accessToken
     async jwt({ token, user }: { token: JWT, user?: any }) {
       console.log('JWT Callback - Token:', token);
       if (user) {
@@ -115,13 +113,9 @@ export default NextAuth({
     }
   },
   pages: {
-    // Display the sign-in page
     signIn: '/auth/signin',
-    // Display the sign-out page 
     signOut: '/auth/signout',
-    // Display the error page
     error: '/auth/error',
   },
-  // Enable debug mode for detailed logs
   debug: true,
 });

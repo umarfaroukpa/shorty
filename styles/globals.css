@@ -176,37 +176,42 @@ nav .dropdown:hover .dropdown-content {
     /* Adjust font size for mobile */
 }
 
-/* Responsive adjustments for feature cards and forms */
-@media (max-width: 768px) {
 
-    .feature-card,
-    .url-shortener-form {
-        width: 100%;
-        padding: 1rem;
-    }
+.url-shortener-form {
+    width: 100%;
+    margin-left: -3.5rem;
 
-    .url-shortener-form {
-        flex-direction: column;
-        align-items: stretch;
-    }
+}
 
-    .url-shortener-form input,
-    .url-shortener-form button {
-        width: 100%;
-        margin-bottom: 0.5rem;
-    }
+.brand {
+    width: 30rem;
+}
 
-    .feature-card {
-        width: 100%;
-        max-width: 100%;
-        height: auto;
-    }
+.review-card {
+    width: 30rem;
+}
 
-    .mobile-menu.active {
-        display: flex;
-    }
+.url-shortener-form button {}
 
-    .hamburger div {
-        background-color: white;
-    }
+.feature-card {
+    width: 41rem;
+    height: auto;
+    margin-right: -9rem;
+
+}
+
+.text {
+    font-size: 1.3rem;
+}
+
+.form {
+    margin-top: 3rem;
+}
+
+.mobile-menu.active {
+    display: flex;
+}
+
+.hamburger div {
+    background-color: white;
 }
