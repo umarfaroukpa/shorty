@@ -160,6 +160,45 @@ nav .dropdown:hover .dropdown-content {
     .slidingText {
         display: none;
     }
+
+    url-shortener-form {
+        width: 100%;
+        margin-left: -3.5rem;
+
+    }
+
+    .brand {
+        width: 30rem;
+    }
+
+    .review-card {
+        width: 30rem;
+    }
+
+    .url-shortener-form button {}
+
+    .feature-card {
+        width: 41rem;
+        height: auto;
+        margin-right: -9rem;
+
+    }
+
+    .text {
+        font-size: 1.3rem;
+    }
+
+    .form {
+        margin-top: 3rem;
+    }
+
+    .mobile-menu.active {
+        display: flex;
+    }
+
+    .hamburger div {
+        background-color: white;
+    }
 }
 
 /* Adjustments for mobile menu closing on item click */
@@ -174,44 +213,4 @@ nav .dropdown:hover .dropdown-content {
 .text-gradient {
     font-size: 1rem;
     /* Adjust font size for mobile */
-}
-
-
-.url-shortener-form {
-    width: 100%;
-    margin-left: -3.5rem;
-
-}
-
-.brand {
-    width: 30rem;
-}
-
-.review-card {
-    width: 30rem;
-}
-
-.url-shortener-form button {}
-
-.feature-card {
-    width: 41rem;
-    height: auto;
-    margin-right: -9rem;
-
-}
-
-.text {
-    font-size: 1.3rem;
-}
-
-.form {
-    margin-top: 3rem;
-}
-
-.mobile-menu.active {
-    display: flex;
-}
-
-.hamburger div {
-    background-color: white;
 }
