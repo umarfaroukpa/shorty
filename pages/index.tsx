@@ -48,6 +48,7 @@ const HomePage = () => {
                                 height={600}
                                 className="absolute top-0 left-0 w-full h-full object-cover size-fit opacity-40 bg-no-repeat"
                                 style={{ zIndex: -1 }}
+                                priority // Add the priority property here
                             />
                             <div className="relative flex flex-col md:flex-row items-center justify-center rounded-lg max-w-5xl mx-auto p-8">
                                 <div className="md:flex-1 text-center md:text-left mb-4 md:mb-0 p-8">

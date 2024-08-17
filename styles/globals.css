@@ -173,6 +173,7 @@ nav .dropdown:hover .dropdown-content {
 
     .review-card {
         width: 30rem;
+        margin-left: -2.5rem;
     }
 
     .url-shortener-form button {}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Secret, sign } from 'jsonwebtoken';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { JWT } from 'next-auth/jwt';
+import { JWT, getToken } from 'next-auth/jwt';
 import { Session } from 'next-auth';
 import NextAuth, { RequestInternal } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -21,11 +21,11 @@ function generateAccessToken(user: IUser): string {
     id: user.id,
     email: user.email,
     name: user.name,
-    premium: user.premium
+    premium: user.premium,
   };
 
   const options = {
-    expiresIn: '1h'
+    expiresIn: '1h',
   };
 
   return sign(payload, SECRET_KEY, options);
@@ -80,9 +80,12 @@ export default NextAuth({
   ],
   session: {
     strategy: 'jwt',
+    maxAge: 24 * 60 * 60, // Custom session maxAge in seconds (1 day)
   },
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,
+    // signingKey and encryptionKey are not valid properties in the current version
+    // Remove encryption: true if not necessary for your use case
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
@@ -119,3 +122,15 @@ export default NextAuth({
   },
   debug: true,
 });
+
+// Example usage of getToken in an API route
+export async function someApiRoute(req: NextApiRequest, res: NextApiResponse) {
+  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+  console.log('Decoded token:', token);
+
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  // Your API logic here
+}
