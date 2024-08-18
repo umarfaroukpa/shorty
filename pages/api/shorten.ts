@@ -1,4 +1,3 @@
-import React from 'react';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { nanoid } from 'nanoid';
 import QRCode from 'qrcode';
@@ -16,18 +15,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
 
         try {
-            let shortCode = nanoid(7);
-            let shortUrl = `${req.headers.origin}/${shortCode}`;
-            const qrCode = await QRCode.toDataURL(shortUrl)
+            let shortCode = customUrl || nanoid(7);
 
-            if (customUrl) {
-                shortCode = customUrl;
-            }
+            const baseUrl = process.env.NODE_ENV === 'production'
+                ? process.env.NEXTAUTH_URL
+                : req.headers.origin;
 
-            if (customDomain) {
-                shortUrl = `${customDomain}/${shortCode}`;
-            }
+            const shortUrl = customDomain
+                ? `${customDomain}/${shortCode}`
+                : `${baseUrl}/${shortCode}`;
 
+            const qrCode = await QRCode.toDataURL(shortUrl);
 
             const newUrl = new Url({
                 originalUrl,
@@ -47,5 +45,3 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(405).json({ message: 'Method not allowed' });
     }
 }
-
-
