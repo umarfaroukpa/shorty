@@ -17,20 +17,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         try {
             let shortCode = nanoid(7);
-            const baseUrl = process.env.NODE_ENV === 'production'
-                ? process.env.PRODUCTION_URL
-                : req.headers.origin;
 
-            let shortUrl = `${baseUrl}/${shortCode}`;
-            const qrCode = await QRCode.toDataURL(shortUrl);
-
+            // If customUrl is provided, use it as the shortCode
             if (customUrl) {
                 shortCode = customUrl;
             }
 
-            if (customDomain) {
-                shortUrl = `${customDomain}/${shortCode}`;
-            }
+            const baseUrl = process.env.NODE_ENV === 'production'
+                ? process.env.PRODUCTION_URL
+                : req.headers.origin;
+
+            // Generate shortUrl based on customDomain or baseUrl
+            let shortUrl = customDomain
+                ? `${customDomain}/${shortCode}`
+                : `${baseUrl}/${shortCode}`;
+
+            const qrCode = await QRCode.toDataURL(shortUrl);
 
             const newUrl = new Url({
                 originalUrl,
