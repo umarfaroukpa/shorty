@@ -8,6 +8,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         await dbConnect();
 
         const { shortCode } = context.params;
+        console.log('shortCode:', shortCode);
         const urlEntry = await Url.findOne({ shortCode }).exec();
 
         if (urlEntry) {
@@ -35,6 +36,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const RedirectPage = () => {
+    // This page should never be rendered
     return null;
 };
 
