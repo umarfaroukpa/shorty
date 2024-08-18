@@ -161,22 +161,18 @@ nav .dropdown:hover .dropdown-content {
         display: none;
     }
 
-    url-shortener-form {
-        width: 100%;
-        margin-left: -3.5rem;
-
+    .url-shortener-form {
+        width: 50%;
     }
 
-    .brand {
+    e .brand {
         width: 30rem;
     }
 
     .review-card {
         width: 30rem;
-        margin-left: -2.5rem;
+        margin-left: 0.5rem;
     }
-
-    .url-shortener-form button {}
 
     .feature-card {
         width: 41rem;
@@ -215,3 +211,5 @@ nav .dropdown:hover .dropdown-content {
     font-size: 1rem;
     /* Adjust font size for mobile */
 }
+
+@media (max-width: 480px) {}

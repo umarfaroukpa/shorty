@@ -115,7 +115,7 @@ const UrlShortener = () => {
                     Shorten Now!
                 </button>
             </form>
-            <div className="relative flex flex-row items-start gap-[20px] p-6 mt-5 w-[659px] bg-[#3f4551] rounded-custom">
+            <div className="custom relative flex flex-row items-start gap-[20px] p-6 mt-5 w-[659px] bg-[#3f4551] rounded-custom">
                 <form className="flex flex-col gap-5">
                     <div className="flex flex-col gap-1 mt-4 w-[320px]">
                         <label className="text-[#C9CED6] pl-8 pb-4 text-[16px] leading-[18px]">Customize Your Domain</label>
@@ -148,7 +148,7 @@ const UrlShortener = () => {
                         </div>
                     </div>
                 </form>
-                <div className="flex flex-col gap-4 ml-10 pt-4">
+                <div className=" flex flex-col gap-4 ml-10 pt-4">
                     <div className="flex items-center gap-2 text-[#C9CED6] text-[16px]">
                         <i className="fa-solid fa-chart-bar text-gradient"></i>
                         <span>Detailed Link Analytics</span>

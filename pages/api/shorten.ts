@@ -17,8 +17,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         try {
             let shortCode = nanoid(7);
-            let shortUrl = `${req.headers.origin}/${shortCode}`;
-            const qrCode = await QRCode.toDataURL(shortUrl)
+            const baseUrl = process.env.NODE_ENV === 'production'
+                ? process.env.PRODUCTION_URL
+                : req.headers.origin;
+
+            let shortUrl = `${baseUrl}/${shortCode}`;
+            const qrCode = await QRCode.toDataURL(shortUrl);
 
             if (customUrl) {
                 shortCode = customUrl;
@@ -27,7 +31,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             if (customDomain) {
                 shortUrl = `${customDomain}/${shortCode}`;
             }
-
 
             const newUrl = new Url({
                 originalUrl,
@@ -47,5 +50,3 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(405).json({ message: 'Method not allowed' });
     }
 }
-
-
