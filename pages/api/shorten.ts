@@ -16,7 +16,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         try {
             let shortCode = customUrl || nanoid(7);
-
             const baseUrl = process.env.NODE_ENV === 'production'
                 ? process.env.NEXTAUTH_URL
                 : req.headers.origin;

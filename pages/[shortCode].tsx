@@ -7,12 +7,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         await dbConnect();
 
         const { shortCode } = context.params;
+        console.log('Fetching URL for shortCode:', shortCode);
         const urlEntry = await Url.findOne({ shortCode }).exec();
+        console.log('URL Entry:', urlEntry);
 
         if (urlEntry) {
             const originalUrl = urlEntry.originalUrl.startsWith('http')
                 ? urlEntry.originalUrl
                 : `http://${urlEntry.originalUrl}`;
+            console.log('Redirecting to:', originalUrl)
 
             return {
                 redirect: {
@@ -21,6 +24,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 },
             };
         } else {
+            console.log('No URL entry found for shortCode:', shortCode);
             return {
                 notFound: true,
             };
