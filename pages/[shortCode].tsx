@@ -15,7 +15,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
             const originalUrl = urlEntry.originalUrl.startsWith('http')
                 ? urlEntry.originalUrl
                 : `http://${urlEntry.originalUrl}`;
-            console.log('Redirecting to:', originalUrl)
+            console.log('Redirecting to:', originalUrl);
 
             return {
                 redirect: {
