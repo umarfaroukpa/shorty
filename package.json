@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@prisma/client": "^5.17.0",
+    "@stripe/react-stripe-js": "^2.8.0",
+    "@stripe/stripe-js": "^4.3.0",
     "@tailwindcss/typography": "^0.5.13",
     "@testing-library/dom": "^10.4.0",
     "@types/bcryptjs": "^2.4.6",
@@ -35,8 +37,10 @@
     "react-dom": "^18.3.1",
     "react-markdown": "^9.0.1",
     "react-mde": "^11.5.0",
+    "react-paystack": "^6.0.0",
     "sharp": "^0.33.4",
     "showdown": "^2.1.0",
+    "stripe": "^16.8.0",
     "swiper": "^11.1.9"
   },
   "devDependencies": {

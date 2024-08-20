@@ -13,6 +13,7 @@ import Brand from '../components/Brand';
 import MarkdownEditor from '../components/MarkdownEditor';
 import Image from 'next/image';
 
+
 const HomePage = () => {
     const { data: session } = useSession();
     const [showModal, setShowModal] = useState(false);

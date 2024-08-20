@@ -1,8 +1,85 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import Image from 'next/image';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+
+// Load Stripe outside of components render to avoid recreating Stripe object on every render
+const stripePromise = loadStripe('your-publishable-key-here');
+
+const PaymentForm = () => {
+    const stripe = useStripe();
+    const elements = useElements();
+    const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
+    const [message, setMessage] = useState('');
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        if (!stripe || !elements) {
+            // Stripe.js has not loaded yet. Make sure to disable form submission until Stripe.js has loaded.
+            return;
+        }
+
+        const cardElement = elements.getElement(CardElement);
+
+        const { error, paymentMethod } = await stripe.createPaymentMethod({
+            type: 'card',
+            card: cardElement,
+            billing_details: {
+                name,
+                email,
+            },
+        });
+
+        if (error) {
+            setMessage(error.message);
+        } else {
+            const response = await fetch('/api/payment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ paymentMethodId: paymentMethod.id, email }),
+            });
+
+            const result = await response.json();
+
+            if (result.error) {
+                setMessage(result.error);
+            } else {
+                setMessage('Payment successful!');
+            }
+        }
+    };
+
+    return (
+        <form onSubmit={handleSubmit} className="payment-form">
+            <h2 className='text-white'>Make a Payment</h2>
+            <input
+                className='bg-[#144EE3] border border-[#144EE3] text-gradient'
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+                required
+            />
+            <input
+                className='bg-[#144EE3] border border-[#144EE3] text-gradient'
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Name"
+                required
+            />
+            <CardElement />
+            <button type="submit" className='bg-[#144EE3] border border-[#144EE3]' disabled={!stripe}>Pay</button>
+            {message && <p>{message}</p>}
+        </form>
+    );
+};
 
 const UrlShortener = () => {
     const { data: session } = useSession();
@@ -80,7 +157,7 @@ const UrlShortener = () => {
     };
 
     return (
-        <div className=" url-shortener-form relative flex flex-col items-center gap-5 pb-20 w-[966px] left-[150px] top-5">
+        <div className="url-shortener-form relative flex flex-col items-center gap-5 pb-20 w-[966px] left-[150px] top-5">
             <div className="flex flex-col items-center w-full h-[81px]">
                 <h1 className="text text-5xl font-extrabold leading-[80px] flex items-center text-center bg-clip-text text-transparent bg-gradient-to-r from-[#144EE3] via-[#EB568E] to-[#A353AA]">
                     Shorten Your Loooong Links :)
@@ -132,14 +209,14 @@ const UrlShortener = () => {
                             />
                         </div>
                     </div>
-                    <div className="flex flex-col gap-1 mt-8 w-[320px]">
-                        <label className="text-[#C9CED6] pl-8 pb-4 text-[16px] leading-[18px]">Customize Your URL</label>
+                    <div className="flex flex-col gap-1 mt-4 w-[320px]">
+                        <label className="text-[#C9CED6] pl-8 pb-4 text-[16px] leading-[18px]">Customize Your Link</label>
                         <div className="flex flex-row items-center gap-[10px]">
                             <div className="flex items-center w-[25px] text-[#C9CED6] text-[20px] leading-[28px]">
-                                <i className="fa-solid fa-link text-gradient"></i>
+                                <i className="fa-solid fa-wand-magic-sparkles text-gradient"></i>
                             </div>
                             <input
-                                className="w-[220px] p-2 text-gradient rounded bg-[#144EE3] border border-[#144EE3] cursor-pointer"
+                                className="w-[220px] p-2 rounded bg-[#144EE3] text-gradient border border-[#144EE3] shadow-lg text-white font-inter font-semibold text-[16px] leading-[18px] cursor-pointer"
                                 type="text"
                                 placeholder="Custom URL (optional)"
                                 value={customUrl}
@@ -148,60 +225,38 @@ const UrlShortener = () => {
                         </div>
                     </div>
                 </form>
-                <div className=" flex flex-col gap-4 ml-10 pt-4">
-                    <div className="flex items-center gap-2 text-[#C9CED6] text-[16px]">
-                        <i className="fa-solid fa-chart-bar text-gradient"></i>
-                        <span>Detailed Link Analytics</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-[#C9CED6] text-[16px]">
-                        <i className="fa-solid fa-globe text-gradient"></i>
-                        <span>Fully Branded Domains</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-[#C9CED6] text-[16px]">
-                        <i className="fa-solid fa-link text-gradient"></i>
-                        <span>Bulk Short URLs</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-[#C9CED6] text-[16px]">
-                        <i className="fa-solid fa-cogs text-gradient"></i>
-                        <span>Link Management Features</span>
-                    </div>
-                </div>
+                <Elements stripe={stripePromise}>
+                    <PaymentForm />
+                </Elements>
             </div>
-            {shortUrl && isDialogVisible && (
-                <div className="fixed inset-0 flex items-center justify-center z-50 ">
-                    <div className=" rounded-lg p-6 shadow-lg text-center text-white relative bg-[#3f4551] rounded-custom">
-                        <button className="absolute top-2 right-2 text-white" onClick={() => setIsDialogVisible(false)}>
-                            <i className="fa-solid fa-times"></i>
+            {shortUrl && (
+                <div className="dialog absolute left-[0px] top-[20px] w-full h-full bg-[#000000b5] flex justify-center items-center">
+                    <div className="relative w-[480px] h-[600px] flex flex-col items-center gap-[50px] p-[50px] bg-white rounded-[24px]">
+                        <button className="absolute right-[15px] top-[15px]" onClick={() => setIsDialogVisible(false)}>
+                            <Image src="/close.svg" width={40} height={40} alt="Close" />
                         </button>
-                        <h2 className="text-xl font-semibold mb-4">
-                            <i className="fa-solid fa-ice-cream text-gradient"></i> Your Link Is Ready
-                        </h2>
-                        <button className="mb-2">
-                            <i className="fa-solid fa-share-nodes text-garadient"></i> Copy Shortened Url And Share
-                        </button>
-                        <p className="mb-2 text-blue-500 underline">
-                            <a href={shortUrl} target="_blank" rel="noopener noreferrer">{shortUrl}</a>
-                        </p>
-                        <div className="flex items-center mb-4 justify-center">
-                            <i className="fa-solid fa-qrcode mr-2"></i>
-                            {qrCode && <Image src={qrCode} width={80} height={80} alt="QR Code" className="mr-2" />}
-                            <button onClick={handleCopyToClipboard} className="text-blue-500 underline">
-                                <i className="fa-solid fa-copy"></i> Copy
-                            </button>
+                        <div className="flex flex-col items-center gap-[10px]">
+                            <Image src={qrCode} width={100} height={100} alt="QR Code" />
+                            <span className="text-2xl font-bold">Shortened URL:</span>
+                            <a href={shortUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                                {shortUrl}
+                            </a>
                         </div>
-                        <h3 className="text-lg font-semibold mb-2 pr-9 text-garadient">Share Via</h3>
-                        <div className="flex gap-2 justify-center">
-                            <button className="text-green-500" onClick={() => handleShare('whatsapp')}>
-                                <i className="fa-brands fa-whatsapp"></i> WhatsApp
+                        <button onClick={handleCopyToClipboard} className="bg-blue-500 text-white p-2 rounded">
+                            Copy to Clipboard
+                        </button>
+                        <div className="flex gap-2 mt-4">
+                            <button onClick={() => handleShare('whatsapp')} className="bg-green-500 text-white p-2 rounded">
+                                Share on WhatsApp
                             </button>
-                            <button className="text-blue-400" onClick={() => handleShare('twitter')}>
-                                <i className="fa-brands fa-twitter"></i> Twitter
+                            <button onClick={() => handleShare('twitter')} className="bg-blue-400 text-white p-2 rounded">
+                                Share on Twitter
                             </button>
-                            <button className="text-blue-600" onClick={() => handleShare('facebook')}>
-                                <i className="fa-brands fa-facebook"></i> Facebook
+                            <button onClick={() => handleShare('facebook')} className="bg-blue-600 text-white p-2 rounded">
+                                Share on Facebook
                             </button>
-                            <button className="text-red-500" onClick={() => handleShare('gmail')}>
-                                <i className="fa-solid fa-envelope"></i> Gmail
+                            <button onClick={() => handleShare('gmail')} className="bg-red-500 text-white p-2 rounded">
+                                Share via Email
                             </button>
                         </div>
                     </div>
