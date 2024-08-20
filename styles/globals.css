@@ -162,13 +162,14 @@ nav .dropdown:hover .dropdown-content {
 .payment-form input {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #144EE3;
     border-radius: 5px;
+
 }
 
 .payment-form button {
     padding: 10px;
-    background-color: #007bff;
+    background-color: #144EE3;
     color: white;
     border: none;
     border-radius: 5px;
