@@ -8,7 +8,7 @@ const Companies = () => {
     ];
 
     return (
-        <div className="brand p-4 rounded-lg shadow-md mt-8 text-white ">
+        <div className="brand p-4 rounded-lg shadow-md mt-8 text-white mx-auto ">
             <h2 className="text-2xl font-bold text-center mb-4 text-gradient">
                 Discover Some of Brands That Have Been Using Shorty For Longer Period Of Time
             </h2>

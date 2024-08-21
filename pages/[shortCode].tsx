@@ -2,6 +2,8 @@ import { GetServerSideProps } from 'next';
 import dbConnect from '../utils/dbConnect';
 import Url from '../models/Url';
 
+
+// this to handle the URL redirection based on a shortCode parameter.
 export const getServerSideProps: GetServerSideProps = async (context) => {
     try {
         await dbConnect();
@@ -10,7 +12,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         console.log('Fetching URL for shortCode:', shortCode);
         const urlEntry = await Url.findOne({ shortCode }).exec();
         console.log('URL Entry:', urlEntry);
-
+        // use tenary operator that determines the value of the baseUrl variable 
+        // based on the environment in which the application is running. Here's a breakdown of what it does:
         if (urlEntry) {
             const originalUrl = urlEntry.originalUrl.startsWith('http')
                 ? urlEntry.originalUrl

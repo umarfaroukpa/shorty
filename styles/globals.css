@@ -23,9 +23,9 @@ body {
 
 .spinner-border {
     border-top-color: transparent;
-    border-right-color: #3498db;
+    border-right-color: #144EE3;
     border-bottom-color: transparent;
-    border-left-color: #3498db;
+    border-left-color: #144EE3;
 }
 
 /* Navbar Styles */
@@ -163,6 +163,7 @@ nav .dropdown:hover .dropdown-content {
     width: 100%;
     padding: 10px;
     border: 1px solid #144EE3;
+    background-color: #144EE3;
     border-radius: 5px;
 
 }
@@ -232,7 +233,7 @@ nav .dropdown:hover .dropdown-content {
 }
 
 .dialog-content a {
-    color: #007bff;
+    color: #144EE3;
     text-decoration: underline;
 }
 
@@ -249,33 +250,52 @@ nav .dropdown:hover .dropdown-content {
         display: none;
     }
 
-    .url-shortener-form {
-        width: 50%;
-    }
-
-    e .brand {
-        width: 30rem;
-    }
-
-    .review-card {
-        width: 30rem;
-        margin-left: 0.5rem;
-    }
-
-    .feature-card {
-        width: 41rem;
-        height: auto;
-        margin-right: -9rem;
-
-    }
-
-    .text {
-        font-size: 1.3rem;
+    .w-full {
+        margin-left: 9rem;
     }
 
     .form {
         margin-top: 3rem;
+        margin-left: -11rem;
+        width: 100%;
     }
+
+    .shorten {
+        margin-left: 19rem;
+    }
+
+    .custom {
+        margin-left: 20rem;
+        width: 60rem;
+    }
+
+    .text {
+        margin-right: 15rem;
+    }
+
+    .brand {
+        width: 30rem;
+        margin-left: 18rem;
+        font-size: 40px;
+    }
+
+    .review-card {
+        width: 35rem;
+        margin-left: 18rem;
+    }
+
+
+    .footer {
+        margin-left: 10rem;
+    }
+
+    .feature-card {
+        margin-right: -30rem;
+        width: 45rem;
+
+
+    }
+
 
     .mobile-menu.active {
         display: flex;
@@ -286,7 +306,7 @@ nav .dropdown:hover .dropdown-content {
     }
 }
 
-/* Adjustments for mobile menu closing on item click */
+
 .mobile-menu ul li a,
 .mobile-menu ul li button {
     padding: 1rem;
@@ -294,10 +314,124 @@ nav .dropdown:hover .dropdown-content {
     display: block;
 }
 
-/* Make the text gradient class responsive */
-.text-gradient {
-    font-size: 1rem;
-    /* Adjust font size for mobile */
+@media (max-width: 480px) {
+
+    .slidingText {
+        display: none;
+    }
+
+    .relative.w-full {
+        text-align: center;
+    }
+
+    .relative.w-full img {
+        width: 100%;
+
+        height: auto;
+    }
+
+
+    .url-shortener-form {
+        margin: 0 auto;
+        width: 100%;
+        padding: 0 15px;
+    }
+
+
+    .custom {
+        margin: 0 auto;
+        width: 100%;
+        padding: 0 15px;
+    }
+
+
+    .feature-card {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 280px;
+    }
+
+
+    .review-card {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 280px;
+    }
 }
 
-@media (max-width: 480px) {}
+
+/* @media (max-width: 768px) {
+    .relative.w-full {
+        text-align: center;
+        justify-content: center;
+    }
+
+    .relative.w-full img {
+        margin: 0 auto;
+    }
+
+    .url-shortener-form {
+        margin: 0 auto;
+        width: 100%;
+        left: 0;
+        padding: 0 20px;
+
+    }
+
+
+    .custom {
+        margin: 0 auto;
+        width: 100%;
+        padding: 0 20px;
+    }
+
+
+    .feature-card {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+
+    .relative.w-full {
+        text-align: center;
+    }
+
+    .relative.w-full img {
+        width: 100%;
+
+        height: auto;
+    }
+
+
+    .url-shortener-form {
+        margin: 0 auto;
+        width: 100%;
+        padding: 0 15px;
+    }
+
+
+    .custom {
+        margin: 0 auto;
+        width: 100%;
+        padding: 0 15px;
+    }
+
+
+    .feature-card {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 280px;
+    }
+
+
+    .review-card {
+        margin: 0 auto;
+        width: 100%;
+        max-width: 280px;
+    }
+} */

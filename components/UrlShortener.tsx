@@ -158,13 +158,13 @@ const UrlShortener = () => {
     };
 
     return (
-        <div className=" url-shortener-form relative flex flex-col items-center gap-5 pb-20 w-[966px] left-[150px] top-5">
+        <div className="relative flex flex-col items-center gap-5 pb-20 w-[966px] left-[150px] top-5">
             <div className="flex flex-col items-center w-full h-[81px]">
                 <h1 className="text text-5xl font-extrabold leading-[80px] flex items-center text-center bg-clip-text text-transparent bg-gradient-to-r from-[#144EE3] via-[#EB568E] to-[#A353AA]">
                     Shorten Your Loooong Links :)
                 </h1>
             </div>
-            <p className="w-[634px] text-sm font-light leading-6 -mt-9 text-gradient flex items-center text-center text-[#C9CED6]">
+            <p className="longtext w-[634px] text font-light leading-6 -mt-9 text-gradient flex items-center text-center text-[#C9CED6]">
                 Shorty is an efficient and easy-to-use URL shortening service that streamlines your online experience.
             </p>
             <form onSubmit={handleShorten} className="form relative w-[659px] h-[76px] flex flex-row items-center p-[21px] bg-[#3f4551] shadow-md rounded-[48px]">
@@ -187,7 +187,7 @@ const UrlShortener = () => {
                     </div>
                 </div>
                 <button
-                    className="absolute left-[473.5px] top-[8px] w-[178px] h-[60px] flex flex-row justify-center items-center px-[25px] py-[21px] bg-[#144EE3] border border-[#144EE3] shadow-lg rounded-[48px] text-white font-inter font-semibold text-[16px] leading-[18px]"
+                    className="shorten absolute left-[473.5px] top-[8px] w-[178px] h-[60px] flex flex-row justify-center items-center px-[25px] py-[21px] bg-[#144EE3] border border-[#144EE3] shadow-lg rounded-[48px] text-white font-inter font-semibold text-[16px] leading-[18px]"
                     type="submit"
                 >
                     Shorten Now!

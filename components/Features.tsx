@@ -18,12 +18,15 @@ interface FeatureCardProps {
 }
 
 const FeatureCard: React.FC<FeatureCardProps> = ({ icon, title, description }) => (
-    <div className="feature-card flex flex-col items-center justify-center gap-4 p-4 w-[300px] h-[250px] bg-[#3f4551] shadow-lg rounded-lg transform transition-transform hover:scale-105 hover:shadow-xl">
-        <Icon name={icon} className="text-gradient" style={{ fontSize: '2rem' }} /> {/* Adjusted size */}
-        <h2 className="text-5xl font-bold text-center text-gradient">{title}</h2>
-        <p className="text-white text-center">{description}</p>
+    <div className="feature-card flex flex-col items-center justify-center gap-4 p-4 w-full max-w-sm md:w-[300px] h-auto bg-[#3f4551] shadow-lg rounded-2xl transform transition-transform hover:scale-105 hover:shadow-2xl mx-auto">
+        <Icon name={icon} className="text-gradient" style={{ fontSize: '1.5rem' }} />
+        <h2 className="text-xl font-bold text-center text-gradient">{title}</h2>
+        <p className="text-white text-sm text-center">{description}</p>
     </div>
 );
+
+
+
 
 const Features: React.FC = () => (
     <div className="flex flex-wrap justify-center gap-8 p-8">
