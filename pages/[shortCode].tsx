@@ -15,7 +15,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         // use tenary operator that determines the value of the baseUrl variable 
         // based on the environment in which the application is running. Here's a breakdown of what it does:
         if (urlEntry) {
-            const originalUrl = urlEntry.originalUrl.startsWith('https')
+            const originalUrl = urlEntry.originalUrl.startsWith('http')
                 ? urlEntry.originalUrl
                 : `http://${urlEntry.originalUrl}`;
             console.log('Redirecting to:', originalUrl);
