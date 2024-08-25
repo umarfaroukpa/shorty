@@ -80,12 +80,12 @@ export default NextAuth({
   ],
   session: {
     strategy: 'jwt',
-    maxAge: 24 * 60 * 60, // Custom session maxAge in seconds (1 day)
+    maxAge: 24 * 60 * 60,
   },
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,
     // signingKey and encryptionKey are not valid properties in the current version
-    // Remove encryption: true if not necessary for your use case
+
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
@@ -120,17 +120,6 @@ export default NextAuth({
     signOut: '/auth/signout',
     error: '/auth/error',
   },
-  debug: true,
+
 });
 
-// Example usage of getToken in an API route
-export async function someApiRoute(req: NextApiRequest, res: NextApiResponse) {
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  console.log('Decoded token:', token);
-
-  if (!token) {
-    return res.status(401).json({ message: 'Unauthorized' });
-  }
-
-  // Your API logic here
-}
