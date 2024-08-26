@@ -18,15 +18,5 @@
                 "installCommand": "npm install --legacy-peer-deps"
             }
         }
-    ],
-    "rewrites": [
-        {
-            "source": "/api/:path*",
-            "destination": "/api/:path*"
-        },
-        {
-            "source": "/(.*)",
-            "destination": "/"
-        }
     ]
 }
