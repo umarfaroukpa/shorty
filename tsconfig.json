@@ -20,7 +20,7 @@
       ]
     },
     "jsx": "preserve",
-    "target": "ES2017",
+    "target": "ES6",
     "lib": [
       "dom",
       "dom.iterable",
@@ -32,8 +32,9 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
+    "module": "ESNext",
     "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "incremental": true

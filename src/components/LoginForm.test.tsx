@@ -28,20 +28,29 @@ test('renders login form', () => {
     const router = createMockRouter(mockRouter);
     render(
         <RouterContext.Provider value={router}>
-            <LoginForm onSwitchToSignup={() => { }} />
+            <LoginForm onSwitchToSignup={() => { }} activeForm='Login' />
         </RouterContext.Provider>
     );
-    expect(screen.getByText(/login/i)).toBeInTheDocument();
+
+    // Target the heading element specifically using role 'heading'
+    expect(screen.getByRole('heading', { name: /login/i })).toBeInTheDocument();
+
+    // Target the login button specifically using role 'button'
+    expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
 });
 
 test('shows login fields when login button is clicked', () => {
     const router = createMockRouter(mockRouter);
     render(
         <RouterContext.Provider value={router}>
-            <LoginForm onSwitchToSignup={() => { }} />
+            <LoginForm onSwitchToSignup={() => { }} activeForm='Login' />
         </RouterContext.Provider>
     );
-    fireEvent.click(screen.getByText(/login/i));
+
+    // Click on the login button by targeting it specifically
+    fireEvent.click(screen.getByRole('button', { name: /login/i }));
+
+    // Ensure the email and password fields appear after clicking the login button
     expect(screen.getByPlaceholderText(/email/i)).toBeInTheDocument();
     expect(screen.getByPlaceholderText(/password/i)).toBeInTheDocument();
 });

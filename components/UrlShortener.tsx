@@ -2,85 +2,6 @@ import React, { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import Image from 'next/image';
-import { loadStripe } from '@stripe/stripe-js';
-import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-
-// Load Stripe outside of components render to avoid recreating Stripe object on every render
-const stripePromise = loadStripe('your-publishable-key-here');
-
-const PaymentForm = () => {
-    const stripe = useStripe();
-    const elements = useElements();
-    const [email, setEmail] = useState('');
-    const [name, setName] = useState('');
-    const [message, setMessage] = useState('');
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
-        if (!stripe || !elements) {
-            // Stripe.js has not loaded yet. Make sure to disable form submission until Stripe.js has loaded.
-            return;
-        }
-
-        const cardElement = elements.getElement(CardElement);
-
-        const { error, paymentMethod } = await stripe.createPaymentMethod({
-            type: 'card',
-            card: cardElement,
-            billing_details: {
-                name,
-                email,
-            },
-        });
-
-        if (error) {
-            setMessage(error.message);
-        } else {
-            const response = await fetch('/api/payment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ paymentMethodId: paymentMethod.id, email }),
-            });
-
-            const result = await response.json();
-
-            if (result.error) {
-                setMessage(result.error);
-            } else {
-                setMessage('Payment successful!');
-            }
-        }
-    };
-
-    return (
-        <form onSubmit={handleSubmit} className="payment-form border-[#144EE3]">
-            <h2 className='text-white'>Make a Payment</h2>
-            <input
-                className='cursor-pointer bg-[#144EE3]  border border-[#144EE3] shadow-lg text-gradient'
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                required
-            />
-            <input
-                className='cursor-pointer bg-[#144EE3] border-[#144EE3] text-gradient'
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Name"
-                required
-            />
-            <CardElement />
-            <button type="submit" className='bg-[#144EE3] border-[#144EE3]' disabled={!stripe}>Pay</button>
-            {message && <p>{message}</p>}
-        </form>
-    );
-};
-
 
 const UrlShortener = () => {
     const { data: session } = useSession();
@@ -91,29 +12,35 @@ const UrlShortener = () => {
     const [qrCode, setQrCode] = useState('');
     const [shortenCount, setShortenCount] = useState(0);
     const [isDialogVisible, setIsDialogVisible] = useState(false);
-    const MAX_FREE_SHORTENS = 5;
+    const MAX_FREE_SHORTENS = 2;
 
     const handleShorten = async (e) => {
         e.preventDefault();
 
         if (!session && shortenCount >= MAX_FREE_SHORTENS) {
-            alert('You have reached the maximum number of free shortens. Please register for unlimited access.');
+            alert('maximum number of free shortens reached, register now');
+            return;
+        }
+
+
+        if (customUrl && !/^[a-zA-Z0-9-_]+$/.test(customUrl)) {
+            alert('Custom URL can only contain letters, numbers, hyphens, and underscores');
             return;
         }
 
         try {
-            const config = {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${session?.accessToken}`,
-                },
-            };
+            const response = await axios.post('/api/tinyurl', {
+                originalUrl,
+                customUrl,
+                customDomain,
+            });
 
-            const response = await axios.post('/api/shorten', { originalUrl, customDomain, customUrl }, config);
-            setShortUrl(response.data.shortUrl);
-            setQrCode(response.data.qrCode);
-            setShortenCount(shortenCount + 1);
-            setIsDialogVisible(true);
+            if (response.data.shortUrl) {
+                setShortUrl(response.data.shortUrl);
+                setQrCode(response.data.qrCode);
+                setShortenCount(shortenCount + 1);
+                setIsDialogVisible(true);
+            }
         } catch (error) {
             console.error('Error shortening URL:', error);
         }
@@ -158,7 +85,7 @@ const UrlShortener = () => {
     };
 
     return (
-        <div className="relative flex flex-col items-center gap-5 pb-20 w-[966px] left-[150px] top-5">
+        <div className="relative flex flex-col items-center gap-5">
             <div className="flex flex-col items-center w-full h-[81px]">
                 <h1 className="text text-5xl font-extrabold leading-[80px] flex items-center text-center bg-clip-text text-transparent bg-gradient-to-r from-[#144EE3] via-[#EB568E] to-[#A353AA]">
                     Shorten Your Loooong Links :)
@@ -172,8 +99,9 @@ const UrlShortener = () => {
                     <div className="flex items-center w-[25px] h-[28px] text-[#C9CED6] text-[20px] leading-[28px]">
                         <i className="fa-solid fa-link text-gradient"></i>
                     </div>
+
                     <input
-                        className="flex items-center w-[136px] h-[28px] text-gradient text-[16px] leading-[28px] font-light shadow-md rounded"
+                        className="flex items-center w-[136px] h-[28px] text-gradient text-[16px] leading-[28px] font-light text-white font-inter shadow-md rounded focus:outline-none focus:border-none"
                         type="url"
                         value={originalUrl}
                         onChange={(e) => setOriginalUrl(e.target.value)}
@@ -193,16 +121,15 @@ const UrlShortener = () => {
                     Shorten Now!
                 </button>
             </form>
-            <div className="custom relative flex flex-row items-start gap-[20px] p-6 mt-5 w-[659px] bg-[#3f4551] rounded-custom">
-                <form className="flex flex-col gap-5">
-                    <div className="flex flex-col gap-1 mt-4 w-[320px]">
-                        <label className="text-[#C9CED6] pl-8 pb-4 text-[16px] leading-[18px]">Customize Your Domain</label>
-                        <div className="flex flex-row items-center gap-[10px]">
+            <div className="custom-url flex p-3 mt-5 bg-[#3f4551] rounded-custom">
+                <form className="flex flex-row justify-center items-center gap-5">
+                    <div className="flex flex-col gap-1 w-[250px]">
+                        <div className="flex flex-row items-center gap-[10px] ml-4">
                             <div className="flex items-center w-[25px] text-[#C9CED6] text-[20px] leading-[28px]">
                                 <i className="fa-solid fa-globe text-gradient"></i>
                             </div>
                             <input
-                                className="w-[220px] p-2 rounded bg-[#144EE3] text-gradient border border-[#144EE3] shadow-lg text-white font-inter font-semibold text-[16px] leading-[18px] cursor-pointer"
+                                className="w-[150px] p-2 rounded bg-[#144EE3] text-gradient shadow-lg text-white font-inter font-semibold text-[16px] leading-[18px] focus:outline-none focus:border-none"
                                 type="text"
                                 placeholder="Custom Domain (optional)"
                                 value={customDomain}
@@ -210,14 +137,16 @@ const UrlShortener = () => {
                             />
                         </div>
                     </div>
-                    <div className="flex flex-col gap-1 mt-8 w-[320px]">
-                        <label className="text-[#C9CED6] pl-8 pb-4 text-[16px] leading-[18px]">Customize Your URL</label>
+                    <div className="flex items-center text-[15px] text-white font-inter font-semibold leading-[0px] text-transparent bg-clip-text bg-gradient-to-r from-[#144EE3] via-[#EB568E] to-[#144EE3]">
+                        |
+                    </div>
+                    <div className="flex flex-col mr-20 gap-1 w-[150px]">
                         <div className="flex flex-row items-center gap-[10px]">
-                            <div className="flex items-center w-[25px] text-[#C9CED6] text-[20px] leading-[28px]">
+                            <div className="flex items-center w-[25px] text-[#C9CED6] text-[20px] leading-[28px] justify-end">
                                 <i className="fa-solid fa-link text-gradient"></i>
                             </div>
                             <input
-                                className="w-[220px] p-2 text-gradient rounded bg-[#144EE3] border border-[#144EE3] cursor-pointer"
+                                className="w-[150px] p-2 text-gradient bg-[#144EE3] text-white font-inter font-semibold text-[16px] leading-[18px] focus:outline-none focus:border-none"
                                 type="text"
                                 placeholder="Custom URL (optional)"
                                 value={customUrl}
@@ -226,14 +155,10 @@ const UrlShortener = () => {
                         </div>
                     </div>
                 </form>
-                <Elements stripe={stripePromise}>
-                    <PaymentForm />
-                </Elements>
-
             </div>
             {shortUrl && isDialogVisible && (
-                <div className="fixed inset-0 flex items-center justify-center z-50 ">
-                    <div className=" rounded-lg p-6 shadow-lg text-center text-white relative bg-[#3f4551] rounded-custom">
+                <div className="fixed inset-0 flex items-center justify-center z-50">
+                    <div className="rounded-lg p-6 shadow-lg text-center text-white relative bg-[#3f4551] rounded-custom">
                         <button className="absolute top-2 right-2 text-white" onClick={() => setIsDialogVisible(false)}>
                             <i className="fa-solid fa-times"></i>
                         </button>
@@ -241,7 +166,7 @@ const UrlShortener = () => {
                             <i className="fa-solid fa-ice-cream text-gradient"></i> Your Link Is Ready
                         </h2>
                         <button className="mb-2">
-                            <i className="fa-solid fa-share-nodes text-garadient"></i> Copy Shortened Url And Share
+                            <i className="fa-solid fa-share-nodes text-gradient"></i> Copy Shortened Url And Share
                         </button>
                         <p className="mb-2 text-blue-500 underline">
                             <a href={shortUrl} target="_blank" rel="noopener noreferrer">{shortUrl}</a>
@@ -253,7 +178,7 @@ const UrlShortener = () => {
                                 <i className="fa-solid fa-copy"></i> Copy
                             </button>
                         </div>
-                        <h3 className="text-lg font-semibold mb-2 pr-9 text-garadient">Share Via</h3>
+                        <h3 className="text-lg font-semibold mb-2 pr-9 text-gradient">Share Via</h3>
                         <div className="flex gap-2 justify-center">
                             <button className="text-green-500" onClick={() => handleShare('whatsapp')}>
                                 <i className="fa-brands fa-whatsapp"></i> WhatsApp

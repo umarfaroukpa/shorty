@@ -1,11 +1,13 @@
 module.exports = {
-    testEnvironment: 'jsdom',
+    preset: 'ts-jest',
+     // Use 'node' if you're not testing in a browser-like environment
+    testEnvironment: 'jsdom', 
     transform: {
-      '^.+\\.tsx?$': 'babel-jest',
+        // Use Babel for transforming TypeScript/JSX files
+      '^.+\\.tsx?$': 'babel-jest',  
     },
-    moduleNameMapper: {
-      '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
-    },
-    setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
+    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+     // Make sure node_modules are ignored by Jest
+    transformIgnorePatterns: ['<rootDir>/node_modules/'], 
   };
   

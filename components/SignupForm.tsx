@@ -1,14 +1,15 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { signIn } from 'next-auth/react';
 
 interface SignupFormProps {
   onSwitchToLogin: () => void;
+  // Add a prop to track the active form
+  activeForm: string;
 }
 
-const SignupForm = ({ onSwitchToLogin }: SignupFormProps) => {
+const SignupForm = ({ onSwitchToLogin, activeForm }: SignupFormProps) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,9 +39,11 @@ const SignupForm = ({ onSwitchToLogin }: SignupFormProps) => {
   };
 
   return (
-    <div className={`max-w-xs mx-auto p-3 bg-white rounded-lg shadow-sm mt-7 ${showRegisterFields ? 'slide-in' : ''}`}>
-      <h2 className="text-xl font-semibold mb-3">Signup</h2>
-      <div className="flex justify-between mb-3">
+    <div className={`max-w-xs mx-auto p-6 bg-white rounded-lg shadow-sm transition-all duration-500 ${activeForm === 'signup' ? 'h-full text-lg' : 'h-auto text-sm'
+      }`}
+    >
+      <h2 className="text-2xl font-semibold mb-4">Signup</h2>
+      <div className="flex justify-between mb-4">
         <button
           onClick={() => signIn('google')}
           className="w-full p-1 bg-red-500 text-white rounded-md hover:bg-red-700 mx-1 text-sm"
@@ -135,3 +138,4 @@ const SignupForm = ({ onSwitchToLogin }: SignupFormProps) => {
 };
 
 export default SignupForm;
+

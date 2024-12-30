@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Login from '../components/LoginForm';
 import Layout from '../components/Layout';
-import Modal from '../components/Modal';
+import Modal from '../components/AuthPage';
 
 const LoginPage = () => {
     const [showForgotPassword, setShowForgotPassword] = useState(false);

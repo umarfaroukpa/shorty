@@ -25,12 +25,6 @@ const MarkdownEditor = () => {
 
     return (
         <div className="relative container">
-            <button
-                className="absolute top-2 right-2 p-2 bg-red-500 text-white rounded-full hover:bg-red-700"
-                onClick={() => setValue('')} // Function to handle close
-            >
-                <i className="fa fa-times"></i>
-            </button>
             <ReactMde
                 value={value}
                 onChange={setValue}
@@ -40,12 +34,7 @@ const MarkdownEditor = () => {
                     Promise.resolve(converter.makeHtml(markdown))
                 }
             />
-            <button
-                onClick={handleSend}
-                className="mt-4 p-2 bg-blue-500 text-white rounded-md hover:bg-blue-700"
-            >
-                Send
-            </button>
+
             {message && <p className="mt-2">{message}</p>}
         </div>
     );

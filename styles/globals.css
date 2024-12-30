@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@600&display=swap');
 @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
 
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,6 +12,7 @@ body {
     padding: 0;
     box-sizing: border-box;
     background-color: #1E1E1E;
+    overflow-x: hidden;
 }
 
 .text-gradient {
@@ -21,14 +23,6 @@ body {
     text-fill-color: transparent;
 }
 
-.spinner-border {
-    border-top-color: transparent;
-    border-right-color: #144EE3;
-    border-bottom-color: transparent;
-    border-left-color: #144EE3;
-}
-
-/* Navbar Styles */
 nav {
     color: #fff;
     padding: 1rem;
@@ -58,38 +52,6 @@ nav a {
     text-decoration: none;
 }
 
-nav .dropdown {
-    position: relative;
-}
-
-nav .dropdown-content {
-    display: none;
-    position: absolute;
-    right: 0;
-    margin-top: 0.5rem;
-    padding: 0.5rem 0;
-    background-color: #fff;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    border-radius: 0.5rem;
-    z-index: 10;
-}
-
-nav .dropdown:hover .dropdown-content {
-    display: block;
-}
-
-.dropdown-content a {
-    color: #1E1E1E;
-    padding: 0.5rem 1rem;
-    display: block;
-    text-decoration: none;
-}
-
-.dropdown-content a:hover {
-    background-color: #f1f1f1;
-}
-
-/* Responsive Styles */
 .hamburger {
     display: none;
     flex-direction: column;
@@ -148,93 +110,26 @@ nav .dropdown:hover .dropdown-content {
     margin-bottom: 1rem;
 }
 
-.custom {
-    margin-right: 32rem;
-}
-
-.payment-form {
-    flex: 1;
+/* General layout styling */
+.relative-container {
+    padding-top: 5rem;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-}
-
-.payment-form input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #144EE3;
-    background-color: #144EE3;
-    border-radius: 5px;
-
-}
-
-.payment-form button {
-    padding: 10px;
-    background-color: #144EE3;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.payment-form button:disabled {
-    background-color: #ccc;
-}
-
-.url-shortener-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
-
-.custom {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     justify-content: space-between;
-    margin-left: 27rem;
-
-    width: 100%;
-
+    min-height: 100vh;
 }
 
-.dialog {
+.flex-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
+    flex-direction: column;
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.75);
+    align-items: center;
+    margin: 0 auto;
+    padding: 1rem;
 }
 
-.dialog-content {
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
-    text-align: center;
-    position: relative;
-}
-
-.dialog-content button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-}
-
-.dialog-content img {
-    max-width: 100px;
-}
-
-.dialog-content a {
-    color: #144EE3;
-    text-decoration: underline;
+.w-full {
+    max-width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -246,115 +141,39 @@ nav .dropdown:hover .dropdown-content {
         display: flex;
     }
 
-    .slidingText {
-        display: none;
-    }
-
     .w-full {
-        margin-left: 9rem;
+        margin-left: 0;
     }
 
-    .form {
-        margin-top: 3rem;
-        margin-left: -11rem;
-        width: 100%;
-    }
-
-    .shorten {
-        margin-left: 19rem;
-    }
-
+    .url-shortener-form,
     .custom {
-        margin-left: 20rem;
-        width: 60rem;
+        margin: 0 auto;
+        width: 100%;
+        padding: 0 15px;
     }
-
-    .text {
-        margin-right: 15rem;
-    }
-
-    .brand {
-        width: 30rem;
-        margin-left: 18rem;
-        font-size: 40px;
-    }
-
-    .review-card {
-        width: 35rem;
-        margin-left: 18rem;
-    }
-
-
-    .footer {
-        margin-left: 10rem;
-    }
-
-    .feature-card {
-        margin-right: -30rem;
-        width: 45rem;
-
-
-    }
-
-
-    .mobile-menu.active {
-        display: flex;
-    }
-
-    .hamburger div {
-        background-color: white;
-    }
-}
-
-
-.mobile-menu ul li a,
-.mobile-menu ul li button {
-    padding: 1rem;
-    text-align: left;
-    display: block;
 }
 
 @media (max-width: 480px) {
-
-    .slidingText {
-        display: none;
-    }
-
-    .relative.w-full {
+    .relative-container {
         text-align: center;
+        padding: 0;
     }
 
-    .relative.w-full img {
-        width: 100%;
-
-        height: auto;
-    }
-
-
-    .url-shortener-form {
-        margin: 0 auto;
-        width: 100%;
-        padding: 0 15px;
+    .text {
+        font-size: medium;
     }
 
 
+    .url-shortener-form,
     .custom {
         margin: 0 auto;
         width: 100%;
-        padding: 0 15px;
+        padding: 0 10px;
     }
 
-
-    .feature-card {
+    /* Adjust form sizes on mobile */
+    .form {
         margin: 0 auto;
         width: 100%;
-        max-width: 280px;
-    }
-
-
-    .review-card {
-        margin: 0 auto;
-        width: 100%;
-        max-width: 280px;
     }
 }

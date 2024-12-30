@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Profile from '../components/Profile';
 import Footer from '../components/Footer';
-import Modal from '../components/Modal';
+import Modal from '../components/AuthPage';
 import LoginForm from '../components/LoginForm';
 import SignupForm from '../components/SignupForm';
 

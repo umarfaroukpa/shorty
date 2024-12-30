@@ -1,72 +1,73 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import Modal from '../components/Modal';
-import LoginForm from '../components/LoginForm';
-import SignupForm from '../components/SignupForm';
 import Layout from '../components/Layout';
 import UrlShortener from '../components/UrlShortener';
-import Features from '../components/Features';
-import SlidingText from '../components/SlidingText';
-import CustomerReviews from '../components/Review';
-import Brand from '../components/Brand';
 import MarkdownEditor from '../components/MarkdownEditor';
-import Image from 'next/image';
-
+import SignupForm from '../components/SignupForm';
+import LoginForm from '../components/LoginForm';
 
 const HomePage = () => {
-    const { data: session } = useSession();
-    const [showModal, setShowModal] = useState(false);
-    const [isLogin, setIsLogin] = useState(true);
+    const { data: session, status } = useSession();
     const [showEditor, setShowEditor] = useState(false);
+    const [activeForm, setActiveForm] = useState<'login' | 'signup' | 'none'>('none');
 
-    const handleLoginClick = () => {
-        setIsLogin(true);
-        setShowModal(true);
-    };
+    const handleLoginClick = () => setActiveForm('login');
+    const handleSignupClick = () => setActiveForm('signup');
+    const handleCloseForm = () => setActiveForm('none');
+    const toggleEditor = () => setShowEditor(!showEditor);
 
-    const handleSignupClick = () => {
-        setIsLogin(false);
-        setShowModal(true);
-    };
-
-    const toggleEditor = () => {
-        setShowEditor(!showEditor);
-    };
+    // Use effect to prevent body scrolling when form is active
+    useEffect(() => {
+        if (activeForm !== 'none') {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    }, [activeForm]);
 
     return (
         <Layout onLoginClick={handleLoginClick} onSignupClick={handleSignupClick}>
-            <div className="pt-16 p-4">
-                <div className="p-4 rounded-lg shadow-md">
-                    {session ? (
-                        <p className="text-gradient">Welcome Back, {session.user?.name || 'User'}</p>
+            <div className="pt-16 p-4 flex relative h-screen overflow-hidden">
+                {/* Main Content */}
+                <div
+                    className={`flex-grow rounded-lg shadow-md transition-all duration-500 ${activeForm === 'none' ? 'w-full' : 'w-[60%]'
+                        }`}
+                >
+                    {status === 'loading' ? (
+                        <p>Loading...</p>
+                    ) : status === 'unauthenticated' ? (
+                        <p>Please log in to access the features.</p>
                     ) : (
-                        <div className="relative w-full">
-                            <Image
-                                src="/tablet-with-annual-report-removebg-preview.png"
-                                alt="Hero Image"
-                                width={800}
-                                height={600}
-                                className="absolute top-0 left-0 w-full h-full object-cover size-fit opacity-40 bg-no-repeat"
-                                style={{ zIndex: -1 }}
-                                priority
-                            />
-                            <div className="relative flex flex-col md:flex-row items-center justify-center rounded-lg max-w-5xl mx-auto p-8">
-                                <div className="md:flex-1 text-center md:text-left mb-4 md:mb-0 p-8">
-                                    <SlidingText />
-                                </div>
-                            </div>
-                        </div>
+                        <p className="text-gradient">Welcome Back, {session?.user?.name || 'User'}!</p>
                     )}
                     <UrlShortener />
-                    <Features />
-                    <Brand />
-                    <CustomerReviews />
                 </div>
+
+                {/* Sliding Login/Signup Form */}
+                <div
+                    className={`absolute top-0 h-full bg-white shadow-lg transition-transform duration-500 right-0 w-[40%] ${activeForm === 'none' ? 'translate-x-full' : 'translate-x-0'
+                        }`}
+                    style={{ overflow: 'hidden' }} // Prevent overflow inside the form container
+                >
+                    {activeForm === 'login' && (
+                        <LoginForm onSwitchToSignup={handleSignupClick} activeForm={activeForm} />
+                    )}
+                    {activeForm === 'signup' && (
+                        <SignupForm onSwitchToLogin={handleLoginClick} activeForm={activeForm} />
+                    )}
+                </div>
+
+                {/* Close Button for Forms */}
+                {activeForm !== 'none' && (
+                    <button
+                        onClick={handleCloseForm}
+                        className="absolute top-10 right-4 text-gray-700 text-2xl z-50"
+                    >
+                        &times;
+                    </button>
+                )}
             </div>
-            <Modal show={showModal} onClose={() => setShowModal(false)}>
-                {isLogin ? <LoginForm onSwitchToSignup={handleSignupClick} /> : <SignupForm onSwitchToLogin={handleLoginClick} />}
-            </Modal>
+
             {/* Fixed button for showing/hiding the editor */}
             <button
                 onClick={toggleEditor}
@@ -75,6 +76,7 @@ const HomePage = () => {
             >
                 {showEditor ? 'Hide Editor' : 'Show Editor'}
             </button>
+
             {showEditor && (
                 <div className="fixed inset-0 z-50 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4">
                     <div className="relative bg-white p-6 rounded-lg w-full max-w-4xl">

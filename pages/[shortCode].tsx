@@ -1,39 +1,46 @@
 import { GetServerSideProps } from 'next';
+import axios from 'axios';
 import dbConnect from '../utils/dbConnect';
 import Url from '../models/Url';
 
-
-// this to handle the URL redirection based on a shortCode parameter.
 export const getServerSideProps: GetServerSideProps = async (context) => {
+    const { shortCode } = context.params;
+
     try {
         await dbConnect();
-
-        const { shortCode } = context.params;
-        console.log('Fetching URL for shortCode:', shortCode);
         const urlEntry = await Url.findOne({ shortCode }).exec();
-        console.log('URL Entry:', urlEntry);
-        // use tenary operator that determines the value of the baseUrl variable 
-        // based on the environment in which the application is running. Here's a breakdown of what it does:
-        if (urlEntry) {
-            const originalUrl = urlEntry.originalUrl.startsWith('http')
-                ? urlEntry.originalUrl
-                : `http://${urlEntry.originalUrl}`;
-            console.log('Redirecting to:', originalUrl);
 
+        if (urlEntry) {
             return {
                 redirect: {
-                    destination: originalUrl,
+                    destination: urlEntry.originalUrl,
                     permanent: false,
                 },
             };
-        } else {
-            console.log('No URL entry found for shortCode:', shortCode);
+        }
+
+        // Check Rebrandly if the code doesn't exist in your DB
+        const response = await axios.get(`https://api.rebrandly.com/v1/links/${shortCode}`, {
+            headers: {
+                'apikey': process.env.REBRANDLY_API_KEY,
+            },
+        });
+
+        if (response.data) {
             return {
-                notFound: true,
+                redirect: {
+                    destination: response.data.destination,
+                    permanent: false,
+                },
             };
         }
+
+        return {
+            notFound: true,
+        };
+
     } catch (error) {
-        console.error('Error in getServerSideProps:', error);
+        console.error('Error during redirection:', error);
         return {
             notFound: true,
         };

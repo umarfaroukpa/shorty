@@ -101,7 +101,7 @@ const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onSignupClick }) => {
                         <li>
                             <button
                                 onClick={onLoginClick}
-                                className="flex items-center justify-center pr-11  space-x-2 bg-custom-dark border border-custom-border shadow-custom rounded-custom px-6 py-4"
+                                className="flex items-center justify-center pr-11 space-x-2 bg-custom-dark border border-custom-border shadow-custom rounded-custom px-6 py-4"
                             >
                                 <span className="text-custom-text font-inter font-semibold text-sm text-gradient">Login</span>
                                 <span className="text-custom-icon text-2xl">
@@ -158,12 +158,12 @@ const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onSignupClick }) => {
                     {session ? (
                         <>
                             <li>
-                                <button className="block px-4 py-2 hover:bg-gray-200 text-gradient w-full text-left" onClick={handleProfileClick}>
+                                <button onClick={handleProfileClick} className="hover:underline text-custom-text font-inter font-semibold text-sm text-gradient">
                                     Profile
                                 </button>
                             </li>
                             <li>
-                                <button onClick={handleLogout} className="block w-full text-left px-4 py-2 hover:bg-gray-200 text-gradient">
+                                <button onClick={handleLogout} className="text-custom-text font-inter font-semibold text-sm text-gradient">
                                     Logout
                                 </button>
                             </li>
@@ -171,22 +171,13 @@ const Navbar: React.FC<NavbarProps> = ({ onLoginClick, onSignupClick }) => {
                     ) : (
                         <>
                             <li>
-                                <button
-                                    onClick={onLoginClick}
-                                    className="flex items-center justify-center space-x-2 bg-custom-dark border border-custom-border shadow-custom rounded-custom px-6 py-4"
-                                >
-                                    <span className="text-custom-text font-inter font-semibold text-sm text-gradient">Login</span>
-                                    <span className="text-custom-icon text-2xl">
-                                        <i className="fa-solid fa-arrow-right-from-bracket text-gradient"></i>
-                                    </span>
+                                <button onClick={onLoginClick} className="hover:underline text-custom-text font-inter font-semibold text-sm text-gradient">
+                                    Login
                                 </button>
                             </li>
                             <li>
-                                <button
-                                    onClick={onSignupClick}
-                                    className="flex items-center justify-center space-x-2 bg-[#144EE3] border border-[#144EE3] shadow-[10px_9px_22px_rgba(20,78,227,0.38)] rounded-[48px] px-[25px] py-[21px] w-[178px] h-[60px] text-white font-inter font-semibold text-lg leading-[18px]"
-                                >
-                                    <span className="flex items-center">Signup</span>
+                                <button onClick={onSignupClick} className="bg-[#144EE3] rounded-[48px] text-white font-inter font-semibold px-6 py-4">
+                                    Signup
                                 </button>
                             </li>
                         </>

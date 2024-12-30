@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
 
 interface LoginFormProps {
     onSwitchToSignup: () => void;
+    // Add prop to track the active form
+    activeForm: string;
 }
 
-const LoginForm = ({ onSwitchToSignup }: LoginFormProps) => {
+const LoginForm = ({ onSwitchToSignup, activeForm }: LoginFormProps) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
@@ -27,15 +29,16 @@ const LoginForm = ({ onSwitchToSignup }: LoginFormProps) => {
         } else {
             setEmail('');
             setPassword('');
-            // Redirect user to dashboard 
             router.push('/dashboard');
         }
     };
 
     return (
-        <div className={`max-w-xs h-3/6 mx-auto p-3 bg-white rounded-lg shadow-sm mt-7 ${showLoginFields ? 'slide-in' : ''}`}>
-            <h2 className="text-xl font-semibold mb-3">Login</h2>
-            <div className="flex justify-between mb-3">
+        <div className={`max-w-xs mx-auto p-6 bg-white rounded-lg shadow-sm transition-all duration-500 ${activeForm === 'login' ? 'h-full text-lg' : 'h-auto text-sm'
+            }`}
+        >
+            <h2 className="text-2xl font-semibold mb-6">Login</h2>
+            <div className="flex justify-between mb-4">
                 <button
                     onClick={() => signIn('google')}
                     className="w-full p-1 bg-red-500 text-white rounded-md hover:bg-red-700 mx-1 text-sm"
@@ -94,14 +97,12 @@ const LoginForm = ({ onSwitchToSignup }: LoginFormProps) => {
                     <button type="submit" className="w-full p-1.5 bg-blue-500 text-white rounded-md hover:bg-blue-700 text-sm">Sign In</button>
                 </form>
             )}
-            <div className="mt-3 text-center">
-                <button onClick={() => alert('Forgot Password')} className="text-blue-500 hover:underline text-sm">Forgot Password?</button>
+            <div className="mt-3 text-center text-sm">
+                <button onClick={() => alert('Forgot Password')} className="text-blue-500 hover:underline">Forgot Password?</button>
             </div>
             <div className="mt-3 text-center text-sm">
-                <span>Don&apos;t have an account? Sign up now!</span>
-                <button onClick={onSwitchToSignup} className="text-blue-500 hover:underline">
-                    Sign Up
-                </button>
+                <span>Don&apos;t have an account? </span>
+                <button onClick={onSwitchToSignup} className="text-blue-500 hover:underline">Sign Up</button>
             </div>
         </div>
     );

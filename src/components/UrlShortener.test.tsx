@@ -14,50 +14,25 @@ const mockSession = {
     expires: '1',
 };
 
-test('shows error message for unauthenticated users after 5 shortens', async () => {
-    render(
-        <SessionProvider session={null}>
-            <UrlShortener />
-        </SessionProvider>
-    );
-
-    const shortenButton = screen.getByText(/shorten now!/i);
-
-    for (let i = 0; i < 5; i++) {
-        fireEvent.click(shortenButton);
-    }
-
-    await waitFor(() => {
-        // Use a function matcher
-        expect(screen.getByText((content, element) => content.includes('please register'))).toBeInTheDocument();
-    });
-});
-
-test('renders form elements', () => {
+test('renders form elements and allows shortening', async () => {
     render(
         <SessionProvider session={mockSession}>
             <UrlShortener />
         </SessionProvider>
     );
-    expect(screen.getByPlaceholderText(/enter url/i)).toBeInTheDocument();
-    expect(screen.getByText(/shorten now!/i)).toBeInTheDocument();
-});
 
-test('shows error message for unauthenticated users after 5 shortens (second case)', async () => {
-    render(
-        <SessionProvider session={null}>
-            <UrlShortener />
-        </SessionProvider>
-    );
-
+    // Check if input field and button are present
+    const urlInput = screen.getByPlaceholderText(/enter url/i) as HTMLInputElement;
     const shortenButton = screen.getByText(/shorten now!/i);
 
-    for (let i = 0; i < 5; i++) {
-        fireEvent.click(shortenButton);
-    }
+    // Simulate entering a valid URL
+    fireEvent.change(urlInput, { target: { value: 'https://example.com' } });
+    expect(urlInput.value).toBe('https://example.com');
 
-    fireEvent.click(shortenButton); // Trigger one more click
+    // Simulate clicking the shorten button
+    fireEvent.click(shortenButton);
 
-    // Use a function matcher
-    expect(await screen.findByText((content, element) => content.includes('please register'))).toBeInTheDocument();
+    await waitFor(() => {
+        expect(screen.getByText(/your link is ready/i)).toBeInTheDocument();
+    });
 });
