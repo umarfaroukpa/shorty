@@ -13,7 +13,7 @@ const SignUpPage = () => {
 
     return (
         <Layout onLoginClick={handleLoginClick} onSignupClick={handleSignupClick}>
-            <SignUp onSwitchToLogin={handleLoginClick} />
+            <SignUp onSwitchToLogin={handleLoginClick} activeForm='Signup' />
         </Layout>
     );
 };

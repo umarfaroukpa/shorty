@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import Profile from '../components/Profile';
 import Footer from '../components/Footer';
-import Modal from '../components/AuthPage';
+import Modal from '../components/Modal';
 import LoginForm from '../components/LoginForm';
 import SignupForm from '../components/SignupForm';
 
@@ -27,9 +27,9 @@ const ProfilePage = () => {
             <Footer />
             <Modal show={showModal} onClose={() => setShowModal(false)}>
                 {isLogin ? (
-                    <LoginForm onSwitchToSignup={handleSignupClick} />
+                    <LoginForm onSwitchToSignup={handleSignupClick} activeForm='Login' />
                 ) : (
-                    <SignupForm onSwitchToLogin={handleLoginClick} />
+                    <SignupForm onSwitchToLogin={handleLoginClick} activeForm='SigupForm' />
                 )}
             </Modal>
         </>
