@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Login from '../components/LoginForm';
 import Layout from '../components/Layout';
-import Modal from '../components/AuthPage';
+import Modal from '../components/Modal';
 
 const LoginPage = () => {
     const [showForgotPassword, setShowForgotPassword] = useState(false);
@@ -24,7 +24,7 @@ const LoginPage = () => {
 
     return (
         <Layout onLoginClick={handleLoginClick} onSignupClick={handleSignupClick}>
-            <Login onSwitchToSignup={handleSignupClick} />
+            <Login onSwitchToSignup={handleSignupClick} activeForm='Login' />
             <Modal show={showForgotPassword} onClose={handleCloseModal}>
                 <h2 className="text-xl font-bold mb-4">Forgot Password</h2>
                 <p>Enter your email address to reset your password:</p>
