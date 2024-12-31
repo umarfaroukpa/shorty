@@ -48,7 +48,7 @@ export const getStaticProps: GetStaticProps<PostPageProps, Params> = async (cont
 
         return {
             props: {
-                post: post as IPost,
+                post: post as unknown as IPost,
             },
             revalidate: 1,
         };
