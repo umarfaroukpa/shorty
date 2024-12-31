@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
-import ReactMde from 'react-mde';
+import React, { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import * as Showdown from 'showdown';
 import axios from 'axios';
-import 'react-mde/lib/styles/css/react-mde-all.css';
+
+// Dynamically import the SimpleMDE editor to only load it on the client
+const SimpleMDE = dynamic(() => import('react-simplemde-editor'), { ssr: false });
+
+// You can still import the CSS since it is only applied on the client
+import 'easymde/dist/easymde.min.css';
 
 const MarkdownEditor = () => {
     const [value, setValue] = useState<string>('');
-    const [selectedTab, setSelectedTab] = useState<'write' | 'preview'>('write');
     const [message, setMessage] = useState<string | null>(null);
 
     const converter = new Showdown.Converter();
@@ -25,15 +29,15 @@ const MarkdownEditor = () => {
 
     return (
         <div className="relative container">
-            <ReactMde
-                value={value}
-                onChange={setValue}
-                selectedTab={selectedTab}
-                onTabChange={setSelectedTab}
-                generateMarkdownPreview={(markdown) =>
-                    Promise.resolve(converter.makeHtml(markdown))
-                }
-            />
+            {SimpleMDE && (
+                <SimpleMDE
+                    value={value}
+                    onChange={setValue}
+                    options={{
+                        spellChecker: false,
+                    }}
+                />
+            )}
 
             {message && <p className="mt-2">{message}</p>}
         </div>
