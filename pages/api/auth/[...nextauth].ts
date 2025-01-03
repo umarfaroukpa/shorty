@@ -84,7 +84,6 @@ export default NextAuth({
   },
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,
-    // signingKey and encryptionKey are not valid properties in the current version
 
   },
   secret: process.env.NEXTAUTH_SECRET,

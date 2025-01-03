@@ -1,9 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
-import { nanoid } from 'nanoid';
 import QRCode from 'qrcode';
 import dbConnect from '../../utils/dbConnect';
-import Url from '../../models/Url'; // URL model for saving in MongoDB
+import Url from '../../models/Url';
 
 const TINYURL_API_KEY = process.env.TINYURL_API_KEY;
 
@@ -21,7 +20,7 @@ const shortenWithTinyURL = async (originalUrl: string, customAlias?: string) => 
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    await dbConnect(); // MongoDB connection
+    await dbConnect();
 
     if (req.method === 'POST') {
         const { originalUrl, customUrl } = req.body;
@@ -31,13 +30,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
 
         try {
-            // Shorten URL using TinyURL
+
             const shortUrl = await shortenWithTinyURL(originalUrl, customUrl);
 
-            // Optionally generate a QR code for the shortened URL
+
             const qrCode = await QRCode.toDataURL(shortUrl);
 
-            // Save to DB
+
             const newUrl = new Url({
                 originalUrl,
                 shortUrl,
@@ -45,6 +44,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 qrCode,
             });
             await newUrl.save();
+
 
             res.status(201).json({ shortUrl, qrCode });
         } catch (error) {

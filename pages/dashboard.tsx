@@ -26,7 +26,7 @@ const DashboardPage = () => {
                     <>
                         <p className="text-gradient">Welcome back to SHORTY {session.user.name}! Enjoy Our Numerous Servicess.</p>
                         <UrlShortener />
-                        <footer />
+                        <Footer />
                     </>
                 ) : (
                     <p className="text-gradient">Welcome! Please sign in to access premium features.</p>
