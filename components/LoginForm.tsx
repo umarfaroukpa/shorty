@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { signIn } from 'next-auth/react';
+import Modal from './Modal';
 
 interface LoginFormProps {
     onSwitchToSignup: () => void;
-    // Add prop to track the active form
+    // Adding prop to track the active form
     activeForm: string;
 }
 
 const LoginForm = ({ onSwitchToSignup, activeForm }: LoginFormProps) => {
     const [email, setEmail] = useState('');
+    const [resetSent, setResetSent] = useState(false);
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
     const [showLoginFields, setShowLoginFields] = useState(false);
+    const [showForgotPassword, setShowForgotPassword] = useState(false);
     const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -31,6 +34,31 @@ const LoginForm = ({ onSwitchToSignup, activeForm }: LoginFormProps) => {
             setPassword('');
             router.push('/dashboard');
         }
+    };
+
+    const handleForgotPasswordSubmit = async () => {
+        try {
+            const res = await fetch('/api/auth/resetPassword', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email }),
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+                setResetSent(true);
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error('Error Sending Mail:', error);
+
+        }
+    };
+
+    const handleCloseModal = () => {
+        setShowForgotPassword(false);
+        setEmail('');
     };
 
     return (
@@ -104,6 +132,29 @@ const LoginForm = ({ onSwitchToSignup, activeForm }: LoginFormProps) => {
                 <span>Don&apos;t have an account? </span>
                 <button onClick={onSwitchToSignup} className="text-blue-500 hover:underline">Sign Up</button>
             </div>
+
+            <Modal show={showForgotPassword} onClose={handleCloseModal}>
+                <h2 className="text-xl font-bold mb-4">Forgot Password</h2>
+                {resetSent ? (
+                    <p>Check your email for a link to reset your password.</p>
+                ) : (
+                    <>
+                        <p>Enter your email address to reset your password:</p>
+                        <input
+                            type="email"
+                            className="w-full p-2 border border-gray-300 rounded-md mt-2"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <button
+                            className="w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 mt-4"
+                            onClick={handleForgotPasswordSubmit}
+                        >
+                            Submit
+                        </button>
+                    </>
+                )}
+            </Modal>
         </div>
     );
 };

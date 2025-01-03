@@ -27,6 +27,7 @@ const Profile = () => {
 
     const fetchUrls = async (session: any) => {
         try {
+            console.log('Fetching URLs with access token:', session.accessToken);
             const response = await axios.get('/api/url', {
                 headers: {
                     Authorization: `Bearer ${session.accessToken}`
