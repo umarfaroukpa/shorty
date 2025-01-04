@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import dbConnect from '../../../utils/dbConnect';
 import User from '../../../models/User';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { token, password } = req.body;
