@@ -7,6 +7,8 @@ export interface IUser extends Document {
     password: string;
     premium: boolean;
     name: string;
+    resetPasswordToken: string;
+    resetPasswordExpires: Date;
     comparePassword: (password: string) => Promise<boolean>;
 }
 
@@ -15,6 +17,8 @@ const UserSchema: Schema<IUser> = new Schema({
     password: { type: String, required: true },
     premium: { type: Boolean, default: false },
     name: { type: String, required: true },
+    resetPasswordToken: { type: String, required: false },
+    resetPasswordExpires: { type: Date, required: false },
 });
 
 UserSchema.methods.comparePassword = async function (password: string): Promise<boolean> {

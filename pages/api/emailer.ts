@@ -2,7 +2,6 @@ import React from 'react';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nodemailer from 'nodemailer';
 import dbConnect from '../../utils/dbConnect';
-import MarkdownModel from '@../../../models/Markdown';
 
 // Create a Nodemailer transporter
 const transporter = nodemailer.createTransport({
@@ -21,13 +20,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             // Connect to the database
             await dbConnect();
 
-            // Save to MongoDB
-            await MarkdownModel.create({ content });
-
             // Send email
             await transporter.sendMail({
                 from: process.env.EMAIL_USER,
-                to: 'yasmarfaq51@gmail.com',
+                to: 'shortyappp@gmail.com',
                 subject: 'New Markdown Content',
                 text: `New markdown content received:\n\n${content}`,
             });
